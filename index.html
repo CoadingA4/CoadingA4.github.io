@@ -1,11 +1,242 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Attendance & Payroll</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #eef2f7; color: #333; }
+    h2 { margin-bottom: 1rem; color: #444; }
+    .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    .search input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 999px; font-size: 1rem; }
+    .list { list-style: none; margin-top: 1rem; }
+    .list li { background: #fff; padding: 1rem; margin-bottom: 0.75rem; border-radius: 8px;
+                display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+    .list li .name { flex: 1; font-size: 1.1rem; cursor: pointer; }
+    .list li button { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; color: #e74c3c; }
+    .fab { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px;
+            background: #007bff; color: #fff; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 2rem;
+            cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+             background: rgba(0,0,0,0.4); justify-content: center; align-items: center; }
+    .modal .content { background: #fff; border-radius: 12px; padding: 1.5rem;
+                      width: 95%; max-width: 400px; max-height: 90%; overflow-y: auto; position: relative; }
+    .modal .close { position: absolute; top: 1rem; right: 1rem; background: none;
+                    border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    .form-group input, .form-group select { width: 100%; padding: 0.75rem;
+            border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+    .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #007bff;
+           color: #fff; border: none; border-radius: 6px; cursor: pointer;
+           font-size: 1rem; margin-top: 0.5rem; }
+    .attendance-list { list-style: none; margin-top: 1rem; }
+    .attendance-list li { background: #fafbfc; padding: 0.75rem; margin-bottom: 0.5rem;
+                           border-radius: 6px; display: flex; justify-content: space-between;
+                           align-items: center; font-size: 0.95rem; }
+    .attendance-list li button { background: none; border: none; cursor: pointer; font-size: 1rem; color: #e74c3c; }
+    .attendance-summary { margin-top: 1rem; font-weight: 600; font-size: 1.1rem; text-align: right; }
+    .prepayment { margin-top: 1rem; display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
+  </style>
 </head>
 <body>
-    <h1>MY name is Raizo.</h1>
-</body>
+  <div class="container" id="homeView">
+    <h2>HTUN HOME CONSTRUCTION</h2>
+    <div class="search">
+      <input type="text" id="searchInput" placeholder="Search workers...">
+    </div>
+    <ul class="list" id="workerList"></ul>
+  </div>
+  <div class="fab" id="addWorkerBtn">+</div>  <!-- Add Worker Modal -->  <div class="modal" id="workerModal">
+    <div class="content">
+      <button class="close" id="closeWorkerModal">&times;</button>
+      <h2>Add Worker</h2>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="workerName">
+      </div>
+      <div class="form-group">
+        <label>Daily Wage</label>
+        <input type="number" id="dailyWage">
+      </div>
+      <button class="btn" id="saveWorkerBtn">Save</button>
+    </div>
+  </div>  <!-- Attendance Modal -->  <div class="modal" id="attendanceModal">
+    <div class="content">
+      <button class="close" id="closeAttendanceModal">&times;</button>
+      <h2 id="attendanceTitle">Attendance</h2>
+      <div class="prepayment">
+        <label>ကြိုယူ</label>
+        <input type="number" id="prepaymentInput" style="width:100px; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
+        <button class="btn" id="savePrepaymentBtn">Save</button>
+      </div>
+      <ul class="attendance-list" id="attendanceList"></ul>
+      <div class="attendance-summary" id="attendanceSummary"></div>
+    </div>
+    <div class="fab" id="addAttendanceBtn" style="bottom:1.5rem; right:1.5rem;">+</div>
+  </div>  <!-- Attendance Entry Modal -->  <div class="modal" id="attendanceSheet">
+    <div class="content">
+      <button class="close" id="closeAttendanceSheet">&times;</button>
+      <h2>Add Attendance</h2>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="attDate">
+      </div>
+      <div class="form-group">
+        <label>Site Name</label>
+        <input type="text" id="siteName">
+      </div>
+      <div class="form-group">
+        <label>Time of Day</label>
+        <select id="timeOfDay">
+          <option>မနက်</option>
+          <option>နေကုန်</option>
+          <option>ညနေ</option>
+        </select>
+      </div>
+      <button class="btn" id="saveAttendanceBtn">Save</button>
+    </div>
+  </div>  <script>
+    let workers = JSON.parse(localStorage.getItem('workers') || '[]');
+    let currentWorkerId = null, editIndex = null;
+
+    const workerList = document.getElementById('workerList');
+    const searchInput = document.getElementById('searchInput');
+    const addWorkerBtn = document.getElementById('addWorkerBtn');
+    const workerModal = document.getElementById('workerModal');
+    const closeWorkerModal = document.getElementById('closeWorkerModal');
+    const saveWorkerBtn = document.getElementById('saveWorkerBtn');
+    const workerNameInput = document.getElementById('workerName');
+    const dailyWageInput = document.getElementById('dailyWage');
+
+    const attendanceModal = document.getElementById('attendanceModal');
+    const closeAttendanceModal = document.getElementById('closeAttendanceModal');
+    const attendanceList = document.getElementById('attendanceList');
+    const attendanceTitle = document.getElementById('attendanceTitle');
+    const attendanceSummary = document.getElementById('attendanceSummary');
+    const addAttendanceBtn = document.getElementById('addAttendanceBtn');
+    const prepaymentInput = document.getElementById('prepaymentInput');
+    const savePrepaymentBtn = document.getElementById('savePrepaymentBtn');
+
+    const attendanceSheet = document.getElementById('attendanceSheet');
+    const closeAttendanceSheet = document.getElementById('closeAttendanceSheet');
+    const attDateInput = document.getElementById('attDate');
+    const siteNameInput = document.getElementById('siteName');
+    const timeOfDayInput = document.getElementById('timeOfDay');
+    const saveAttendanceBtn = document.getElementById('saveAttendanceBtn');
+
+    function saveWorkers() {
+      localStorage.setItem('workers', JSON.stringify(workers));
+    }
+
+    function renderWorkers(filter = '') {
+      workerList.innerHTML = '';
+      workers.filter(w => w.name.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(w => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span class="name" onclick="openAttendance('${w.id}')">${w.name}</span><button onclick="deleteWorker(event,'${w.id}')">🗑️</button>`;
+          workerList.appendChild(li);
+        });
+    }
+
+    function deleteWorker(e, id) {
+      e.stopPropagation();
+      if (!confirm('Delete?')) return;
+      workers = workers.filter(w => w.id !== id);
+      saveWorkers();
+      renderWorkers(searchInput.value);
+    }
+
+    addWorkerBtn.onclick = () => workerModal.style.display = 'flex';
+    closeWorkerModal.onclick = () => {
+      workerModal.style.display = 'none';
+      workerNameInput.value = '';
+      dailyWageInput.value = '';
+    };
+    saveWorkerBtn.onclick = () => {
+      const name = workerNameInput.value.trim();
+      const wage = parseFloat(dailyWageInput.value);
+      if (!name || isNaN(wage)) return alert('Valid data required');
+      workers.push({ id: Date.now() + '', name, dailyWage: wage, attendance: [], advance: 0 });
+      saveWorkers();
+      renderWorkers();
+      closeWorkerModal.onclick();
+    };
+    searchInput.oninput = () => renderWorkers(searchInput.value);
+
+    window.openAttendance = id => {
+      currentWorkerId = id;
+      editIndex = null;
+      const w = workers.find(x => x.id === id);
+      attendanceTitle.textContent = `${w.name}'s Attendance`;
+      prepaymentInput.value = w.advance || '';
+      renderAttendance();
+      attendanceModal.style.display = 'flex';
+    };
+    closeAttendanceModal.onclick = () => attendanceModal.style.display = 'none';
+
+    savePrepaymentBtn.onclick = () => {
+      const adv = parseFloat(prepaymentInput.value) || 0;
+      const w = workers.find(x => x.id === currentWorkerId);
+      w.advance = adv;
+      saveWorkers();
+      renderAttendance();
+    };
+
+    function renderAttendance() {
+      attendanceList.innerHTML = '';
+      let total = 0;
+      const w = workers.find(x => x.id === currentWorkerId);
+      w.attendance.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach((a, i) => {
+        const rate = (a.time === 'မနက်' || a.time === 'ညနေ') ? 0.5 : 1;
+        const earned = w.dailyWage * rate;
+        total += earned;
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${a.date} | ${a.site} | ${a.time} | ပြန်ငွေ: ${earned.toFixed(2)}</span><div><button onclick="editAttendance(event,${i})">✏️</button><button onclick="deleteAttendance(event,${i})">🗑️</button></div>`;
+        attendanceList.appendChild(li);
+      });
+      const net = total - (w.advance || 0);
+      attendanceSummary.textContent = `စုစုပေါင်း: ${total.toFixed(2)} | ကြိုယူ: ${(w.advance || 0).toFixed(2)} | ‌ရရှိငွေ: ${net.toFixed(2)}`;
+    }
+
+    addAttendanceBtn.onclick = () => attendanceSheet.style.display = 'flex';
+    closeAttendanceSheet.onclick = () => {
+      attendanceSheet.style.display = 'none';
+      attDateInput.value = '';
+      siteNameInput.value = '';
+      timeOfDayInput.value = 'မနက်';
+      editIndex = null;
+    };
+    saveAttendanceBtn.onclick = () => {
+      const date = attDateInput.value;
+      const site = siteNameInput.value.trim();
+      const time = timeOfDayInput.value;
+      if (!date || !site) return alert('Valid data required');
+      const w = workers.find(x => x.id === currentWorkerId);
+      if (editIndex !== null) w.attendance[editIndex] = { date, site, time };
+      else w.attendance.push({ date, site, time });
+      saveWorkers();
+      renderAttendance();
+      closeAttendanceSheet.onclick();
+    };
+    window.deleteAttendance = (e, i) => {
+      e.stopPropagation();
+      if (!confirm('Delete?')) return;
+      workers.find(x => x.id === currentWorkerId).attendance.splice(i, 1);
+      saveWorkers();
+      renderAttendance();
+    };
+    window.editAttendance = (e, i) => {
+      e.stopPropagation();
+      const a = workers.find(x => x.id === currentWorkerId).attendance[i];
+      editIndex = i;
+      attDateInput.value = a.date;
+      siteNameInput.value = a.site;
+      timeOfDayInput.value = a.time;
+      attendanceSheet.style.display = 'flex';
+    };
+
+    renderWorkers();
+  </script></body>
 </html>
