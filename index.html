@@ -1,242 +1,469 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worker Attendance & Payroll</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #eef2f7; color: #333; }
-    h2 { margin-bottom: 1rem; color: #444; }
-    .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    .search input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 999px; font-size: 1rem; }
-    .list { list-style: none; margin-top: 1rem; }
-    .list li { background: #fff; padding: 1rem; margin-bottom: 0.75rem; border-radius: 8px;
-                display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-    .list li .name { flex: 1; font-size: 1.1rem; cursor: pointer; }
-    .list li button { background: transparent; border: none; cursor: pointer; font-size: 1.2rem; color: #e74c3c; }
-    .fab { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px;
-            background: #007bff; color: #fff; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; font-size: 2rem;
-            cursor: pointer; box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-             background: rgba(0,0,0,0.4); justify-content: center; align-items: center; }
-    .modal .content { background: #fff; border-radius: 12px; padding: 1.5rem;
-                      width: 95%; max-width: 400px; max-height: 90%; overflow-y: auto; position: relative; }
-    .modal .close { position: absolute; top: 1rem; right: 1rem; background: none;
-                    border: none; font-size: 1.5rem; cursor: pointer; color: #888; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-    .form-group input, .form-group select { width: 100%; padding: 0.75rem;
-            border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
-    .btn { display: inline-block; padding: 0.75rem 1.5rem; background: #007bff;
-           color: #fff; border: none; border-radius: 6px; cursor: pointer;
-           font-size: 1rem; margin-top: 0.5rem; }
-    .attendance-list { list-style: none; margin-top: 1rem; }
-    .attendance-list li { background: #fafbfc; padding: 0.75rem; margin-bottom: 0.5rem;
-                           border-radius: 6px; display: flex; justify-content: space-between;
-                           align-items: center; font-size: 0.95rem; }
-    .attendance-list li button { background: none; border: none; cursor: pointer; font-size: 1rem; color: #e74c3c; }
-    .attendance-summary { margin-top: 1rem; font-weight: 600; font-size: 1.1rem; text-align: right; }
-    .prepayment { margin-top: 1rem; display: flex; justify-content: flex-end; align-items: center; gap: 0.5rem; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-key="pageTitle">Thet Hmue Naing - Personal Website</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for smooth scrolling and font */
+        html {
+            scroll-behavior: smooth;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            background-color: #F8FAFC; /* A very light, almost white background */
+        }
+        /* Hero section background: a very subtle gradient or solid light color */
+        .hero-background {
+            background: linear-gradient(to bottom right, #E0F2FE, #F0F9FF); /* Soft blue gradient */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0; /* Light blue-gray for track */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94A3B8; /* Medium gray-blue for thumb */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748B; /* Darker gray-blue on hover */
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .animate-slideInUp {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        /* Section title underline animation */
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #3B82F6, #2563EB);
+            margin: 8px auto 0;
+            border-radius: 2px;
+            transition: width 0.4s ease-out;
+        }
+        .section-title:hover::after {
+            width: 60px; /* Adjust as needed */
+        }
+    </style>
 </head>
-<body>
-  <div class="container" id="homeView">
-    <h2>HTUN HOME CONSTRUCTION</h2>
-    <div class="search">
-      <input type="text" id="searchInput" placeholder="Search workers...">
-    </div>
-    <ul class="list" id="workerList"></ul>
-  </div>
-  <div class="fab" id="addWorkerBtn">+</div>  <!-- Add Worker Modal -->  <div class="modal" id="workerModal">
-    <div class="content">
-      <button class="close" id="closeWorkerModal">&times;</button>
-      <h2>Add Worker</h2>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" id="workerName">
-      </div>
-      <div class="form-group">
-        <label>Daily Wage</label>
-        <input type="number" id="dailyWage">
-      </div>
-      <button class="btn" id="saveWorkerBtn">Save</button>
-    </div>
-  </div>  <!-- Attendance Modal -->  <div class="modal" id="attendanceModal">
-    <div class="content">
-      <button class="close" id="closeAttendanceModal">&times;</button>
-      <h2 id="attendanceTitle">Attendance</h2>
-      <div class="prepayment">
-        <label>ကြိုယူ</label>
-        <input type="number" id="prepaymentInput" style="width:100px; padding:0.5rem; border:1px solid #ccc; border-radius:4px;">
-        <button class="btn" id="savePrepaymentBtn">Save</button>
-      </div>
-      <ul class="attendance-list" id="attendanceList"></ul>
-      <div class="attendance-summary" id="attendanceSummary"></div>
-    </div>
-    <div class="fab" id="addAttendanceBtn" style="bottom:1.5rem; right:1.5rem;">+</div>
-  </div>  <!-- Attendance Entry Modal -->  <div class="modal" id="attendanceSheet">
-    <div class="content">
-      <button class="close" id="closeAttendanceSheet">&times;</button>
-      <h2>Add Attendance</h2>
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" id="attDate">
-      </div>
-      <div class="form-group">
-        <label>Site Name</label>
-        <input type="text" id="siteName">
-      </div>
-      <div class="form-group">
-        <label>Time of Day</label>
-        <select id="timeOfDay">
-          <option>မနက်</option>
-          <option>နေကုန်</option>
-          <option>ညနေ</option>
-        </select>
-      </div>
-      <button class="btn" id="saveAttendanceBtn">Save</button>
-    </div>
-  </div>  <script>
-    let workers = JSON.parse(localStorage.getItem('workers') || '[]');
-    let currentWorkerId = null, editIndex = null;
+<body class="bg-gray-50 text-gray-800">
 
-    const workerList = document.getElementById('workerList');
-    const searchInput = document.getElementById('searchInput');
-    const addWorkerBtn = document.getElementById('addWorkerBtn');
-    const workerModal = document.getElementById('workerModal');
-    const closeWorkerModal = document.getElementById('closeWorkerModal');
-    const saveWorkerBtn = document.getElementById('saveWorkerBtn');
-    const workerNameInput = document.getElementById('workerName');
-    const dailyWageInput = document.getElementById('dailyWage');
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-lg fixed w-full z-50 transition-all duration-300 ease-in-out">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-extrabold text-blue-700 hover:text-blue-900 transition-colors duration-300">Thet Hmue Naing</a>
 
-    const attendanceModal = document.getElementById('attendanceModal');
-    const closeAttendanceModal = document.getElementById('closeAttendanceModal');
-    const attendanceList = document.getElementById('attendanceList');
-    const attendanceTitle = document.getElementById('attendanceTitle');
-    const attendanceSummary = document.getElementById('attendanceSummary');
-    const addAttendanceBtn = document.getElementById('addAttendanceBtn');
-    const prepaymentInput = document.getElementById('prepaymentInput');
-    const savePrepaymentBtn = document.getElementById('savePrepaymentBtn');
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navHome">Home</a>
+                <a href="#about" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navAbout">About Me</a>
+                <a href="#education" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navEducation">Education</a>
+                <a href="#skills" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navSkills">Skills</a>
+                <a href="#projects" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navProjects">Projects</a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navContact">Contact Me</a>
+                <button id="language-toggle" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 font-semibold text-base">MM</button>
+            </div>
 
-    const attendanceSheet = document.getElementById('attendanceSheet');
-    const closeAttendanceSheet = document.getElementById('closeAttendanceSheet');
-    const attDateInput = document.getElementById('attDate');
-    const siteNameInput = document.getElementById('siteName');
-    const timeOfDayInput = document.getElementById('timeOfDay');
-    const saveAttendanceBtn = document.getElementById('saveAttendanceBtn');
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="language-toggle-mobile" class="mr-4 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 font-semibold text-sm">MM</button>
+                <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
 
-    function saveWorkers() {
-      localStorage.setItem('workers', JSON.stringify(workers));
-    }
+        <!-- Mobile Navigation (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white py-2 shadow-inner">
+            <a href="#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navHome" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Home</a>
+            <a href="#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navAbout" onclick="document.getElementById('mobile-menu').classList.add('hidden')">About Me</a>
+            <a href="#education" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navEducation" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Education</a>
+            <a href="#skills" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navSkills" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Skills</a>
+            <a href="#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navProjects" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Projects</a>
+            <a href="#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navContact" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact Me</a>
+        </div>
+    </nav>
 
-    function renderWorkers(filter = '') {
-      workerList.innerHTML = '';
-      workers.filter(w => w.name.toLowerCase().includes(filter.toLowerCase()))
-        .forEach(w => {
-          const li = document.createElement('li');
-          li.innerHTML = `<span class="name" onclick="openAttendance('${w.id}')">${w.name}</span><button onclick="deleteWorker(event,'${w.id}')">🗑️</button>`;
-          workerList.appendChild(li);
+    <!-- Home Section (Hero) -->
+    <section id="home" class="hero-background h-screen flex items-center justify-center text-center relative pt-16 md:pt-0">
+        <div class="relative z-10 p-6 max-w-3xl mx-auto">
+            <!-- User Photo -->
+            <img src="https://i.ibb.co/wZbj1BYj/Screenshot-2024-07-17-21-19-15-77-e26099037060f7855018663249767222.jpg"
+                 onerror="this.onerror=null; this.src='https://placehold.co/160x160/aabbcc/ffffff?text=User+Photo';"
+                 alt="Thet Hmue Naing"
+                 class="w-40 h-40 rounded-full object-cover mx-auto mb-8 shadow-2xl border-4 border-white transform transition-transform duration-500 hover:scale-105 animate-slideInUp">
+            <!-- Headline -->
+            <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-4 animate-slideInUp delay-100">
+                <span data-key="heroGreeting">Hello, I'm</span> <span class="text-blue-700">Thet Hmue Naing</span>
+            </h1>
+            <!-- Short Intro -->
+            <p class="text-xl md:text-2xl text-gray-700 mb-10 animate-slideInUp delay-200" data-key="heroIntro">
+                A passionate IT enthusiast exploring the world of AI and IoT.
+            </p>
+            <a href="#about" class="inline-block bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 animate-slideInUp delay-300">
+                <i class="fas fa-arrow-down mr-2"></i> <span data-key="learnMoreBtn">Learn More</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" class="py-20 px-4 md:px-8 bg-white shadow-inner">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="aboutTitle">
+                About Me
+            </h2>
+            <div class="bg-gray-50 p-8 md:p-10 rounded-2xl shadow-xl text-left leading-relaxed text-lg text-gray-700 transition-all duration-500 hover:shadow-2xl animate-fadeIn delay-200">
+                <p class="mb-6" data-key="aboutPara1">
+                    I am <span class="font-semibold text-blue-700">Thet Hmue Naing</span>, a young and passionate IT enthusiast with a strong interest in Information Technology, Electronics, and Artificial Intelligence. Born on <span class="font-semibold">June 16, 2006</span>, I am currently <span class="font-semibold">19 years old</span> and constantly seeking new knowledge and challenges in the tech world.
+                </p>
+                <p data-key="aboutPara2">
+                    I am currently exploring the vast potential of AI tools like ChatGPT, Gemini, and Gamma, leveraging them to enhance my understanding and capabilities. My passion drives me to work on innovative application and IoT projects that aim to integrate smart solutions into real life, making technology both accessible and impactful.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 px-4 md:px-8 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="eduTitle">
+                Education
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <!-- Grade 12 -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-100">
+                    <i class="fas fa-graduation-cap text-4xl text-blue-600 mt-1"></i>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-key="eduGrade12Title">Completed Grade 12</h3>
+                        <p class="text-gray-600 text-base" data-key="eduGrade12Desc">Successfully completed secondary education.</p>
+                    </div>
+                </div>
+                <!-- KMD Computer Center (Advanced) -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-200">
+                    <i class="fas fa-laptop-code text-4xl text-blue-600 mt-1"></i>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-key="eduKMDAdvTitle">Studying at KMD Computer Center Magway</h3>
+                        <p class="text-gray-600 text-base" data-key="eduKMDAdvDesc">Microsoft Office – Advanced Level</p>
+                    </div>
+                </div>
+                <!-- KMD Computer Center (Basic) -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-300">
+                    <i class="fas fa-certificate text-4xl text-blue-600 mt-1"></i>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-key="eduKMDBasicTitle">Completed Microsoft Office Basic Level</h3>
+                        <p class="text-gray-600 text-base" data-key="eduKMDBasicDesc">KMD Computer Center Magway</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-4 md:px-8 bg-white shadow-inner">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="skillsTitle">
+                Skills
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                <!-- Skill Card: Microsoft Office -->
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-100">
+                    <i class="fas fa-file-excel text-6xl text-green-600 mb-5"></i>
+                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillOfficeTitle">Microsoft Office</h3>
+                    <p class="text-gray-600 text-sm mt-1" data-key="skillOfficeDesc">(Basic & Advanced)</p>
+                </div>
+                <!-- Skill Card: Computer Coding Fundamentals -->
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-200">
+                    <i class="fas fa-code text-6xl text-blue-600 mb-5"></i>
+                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillCodingTitle">Coding Fundamentals</h3>
+                    <p class="text-gray-600 text-sm mt-1" data-key="skillCodingDesc">Basic programming concepts</p>
+                </div>
+                <!-- Skill Card: AI Tools (ChatGPT, Gemini, Gamma) -->
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-300">
+                    <i class="fas fa-robot text-6xl text-red-600 mb-5"></i>
+                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillAIToolsTitle">AI Tools</h3>
+                    <p class="text-gray-600 text-sm mt-1" data-key="skillAIToolsDesc">ChatGPT, Gemini, Gamma</p>
+                </div>
+                <!-- Skill Card: IoT Devices & Smart Tech Projects -->
+                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-400">
+                    <i class="fas fa-lightbulb text-6xl text-yellow-600 mb-5"></i>
+                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillIoTTitle">IoT & Smart Tech</h3>
+                    <p class="text-gray-600 text-sm mt-1" data-key="skillIoTDesc">Devices & Projects</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 px-4 md:px-8 bg-gray-100">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="projectsTitle">
+                Projects
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <!-- Project Card: AI-Based Application Projects -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-100">
+                    <div class="flex items-center mb-5">
+                        <i class="fas fa-brain text-5xl text-purple-600 mr-5"></i>
+                        <h3 class="text-2xl font-semibold text-gray-900" data-key="projectAITitle">AI-Based Application Projects</h3>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed text-base" data-key="projectAIDesc">
+                        Developing intelligent applications leveraging AI tools and concepts to solve real-world problems and enhance user experiences.
+                    </p>
+                </div>
+                <!-- Project Card: Smart Home IoT Control Projects -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-200">
+                    <div class="flex items-center mb-5">
+                        <i class="fas fa-home text-5xl text-teal-600 mr-5"></i>
+                        <h3 class="text-2xl font-semibold text-gray-900" data-key="projectIoTTitle">Smart Home IoT Control Projects</h3>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed text-base" data-key="projectIoTDesc">
+                        Creating innovative IoT solutions for smart home automation, integrating devices for seamless control and efficiency.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Me Section -->
+    <section id="contact" class="py-20 px-4 md:px-8 bg-white shadow-inner">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="contactTitle">
+                Contact Me
+            </h2>
+            <div class="bg-gray-50 p-8 md:p-10 rounded-2xl shadow-xl text-left transition-all duration-500 hover:shadow-2xl animate-fadeIn delay-100">
+                <p class="text-lg text-gray-700 mb-8" data-key="contactIntro">
+                    Feel free to reach out to me through any of the following channels:
+                </p>
+                <div class="space-y-8 md:space-y-0 md:flex md:justify-around md:items-center">
+                    <!-- Phone -->
+                    <div class="flex flex-col items-center space-y-3">
+                        <i class="fas fa-phone-alt text-4xl text-blue-600"></i>
+                        <div>
+                            <p class="font-semibold text-gray-900 text-lg" data-key="contactPhone">Phone</p>
+                            <a href="tel:+959896177740" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 block text-base">09896177740</a>
+                            <a href="tel:+959781356127" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 block text-base">09781356127</a>
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="flex flex-col items-center space-y-3">
+                        <i class="fas fa-envelope text-4xl text-blue-600"></i>
+                        <div>
+                            <p class="font-semibold text-gray-900 text-lg" data-key="contactEmail">Email</p>
+                            <a href="mailto:thethmue853@gmail.com" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 text-base">thethmue853@gmail.com</a>
+                        </div>
+                    </div>
+                    <!-- Telegram -->
+                    <div class="flex flex-col items-center space-y-3">
+                        <i class="fab fa-telegram-plane text-4xl text-blue-600"></i>
+                        <div>
+                            <p class="font-semibold text-gray-900 text-lg" data-key="contactTelegram">Telegram</p>
+                            <a href="https://t.me/thet6667777" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 text-base">@thet6667777</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 text-center">
+        <div class="container mx-auto px-4">
+            <p data-key="footerText">&copy; 2025 Thet Hmue Naing. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language content object
+        const content = {
+            en: {
+                pageTitle: "Thet Hmue Naing - Personal Website",
+                navHome: "Home",
+                navAbout: "About Me",
+                navEducation: "Education",
+                navSkills: "Skills",
+                navProjects: "Projects",
+                navContact: "Contact Me",
+                heroGreeting: "Hello, I'm",
+                heroIntro: "A passionate IT enthusiast exploring the world of AI and IoT.",
+                learnMoreBtn: "Learn More",
+                aboutTitle: "About Me",
+                aboutPara1: "I am <span class=\"font-semibold text-blue-700\">Thet Hmue Naing</span>, a young and passionate IT enthusiast with a strong interest in Information Technology, Electronics, and Artificial Intelligence. Born on <span class=\"font-semibold\">June 16, 2006</span>, I am currently <span class=\"font-semibold\">19 years old</span> and constantly seeking new knowledge and challenges in the tech world.",
+                aboutPara2: "I am currently exploring the vast potential of AI tools like ChatGPT, Gemini, and Gamma, leveraging them to enhance my understanding and capabilities. My passion drives me to work on innovative application and IoT projects that aim to integrate smart solutions into real life, making technology both accessible and impactful.",
+                eduTitle: "Education",
+                eduGrade12Title: "Completed Grade 12",
+                eduGrade12Desc: "Successfully completed secondary education.",
+                eduKMDAdvTitle: "Studying at KMD Computer Center Magway",
+                eduKMDAdvDesc: "Microsoft Office – Advanced Level",
+                eduKMDBasicTitle: "Completed Microsoft Office Basic Level",
+                eduKMDBasicDesc: "KMD Computer Center Magway",
+                skillsTitle: "Skills",
+                skillOfficeTitle: "Microsoft Office",
+                skillOfficeDesc: "(Basic & Advanced)",
+                skillCodingTitle: "Coding Fundamentals",
+                skillCodingDesc: "Basic programming concepts",
+                skillAIToolsTitle: "AI Tools",
+                skillAIToolsDesc: "ChatGPT, Gemini, Gamma",
+                skillIoTTitle: "IoT & Smart Tech",
+                skillIoTDesc: "Devices & Projects",
+                projectsTitle: "Projects",
+                projectAITitle: "AI-Based Application Projects",
+                projectAIDesc: "Developing intelligent applications leveraging AI tools and concepts to solve real-world problems and enhance user experiences.",
+                projectIoTTitle: "Smart Home IoT Control Projects",
+                projectIoTDesc: "Creating innovative IoT solutions for smart home automation, integrating devices for seamless control and efficiency.",
+                contactTitle: "Contact Me",
+                contactIntro: "Feel free to reach out to me through any of the following channels:",
+                contactPhone: "Phone",
+                contactEmail: "Email",
+                contactTelegram: "Telegram",
+                footerText: "&copy; 2025 Thet Hmue Naing. All rights reserved."
+            },
+            mm: {
+                pageTitle: "သက်မှူးနိုင် - ကိုယ်ပိုင်ဝဘ်ဆိုဒ်",
+                navHome: "ပင်မစာမျက်နှာ",
+                navAbout: "ကျွန်ုပ်အကြောင်း",
+                navEducation: "ပညာရေး",
+                navSkills: "ကျွမ်းကျင်မှုများ",
+                navProjects: "စီမံကိန်းများ",
+                navContact: "ဆက်သွယ်ရန်",
+                heroGreeting: "မင်္ဂလာပါ၊ ကျွန်ုပ်က",
+                heroIntro: "AI နှင့် IoT ကမ္ဘာကို စူးစမ်းလေ့လာနေသော စိတ်အားထက်သန်သည့် IT ဝါသနာရှင်တစ်ဦးပါ။",
+                learnMoreBtn: "ပိုမိုလေ့လာရန်",
+                aboutTitle: "ကျွန်ုပ်အကြောင်း",
+                aboutPara1: "ကျွန်ုပ်သည် <span class=\"font-semibold text-blue-700\">သက်မှူးနိုင်</span> ဖြစ်ပြီး သတင်းအချက်အလက်နည်းပညာ၊ အီလက်ထရောနစ်နှင့် ဉာဏ်ရည်တုတို့တွင် စိတ်ဝင်စားမှုပြင်းပြသော လူငယ် IT ဝါသနာရှင်တစ်ဦး ဖြစ်ပါသည်။ <span class=\"font-semibold\">၂၀၀၆ ခုနှစ်၊ ဇွန်လ ၁၆ ရက်နေ့</span>တွင် မွေးဖွားခဲ့ပြီး လက်ရှိတွင် အသက် <span class=\"font-semibold\">၁၉ နှစ်</span>ရှိပြီဖြစ်ကာ နည်းပညာလောကတွင် အသိပညာအသစ်များနှင့် စိန်ခေါ်မှုများကို အမြဲရှာဖွေနေသူ ဖြစ်ပါသည်။",
+                aboutPara2: "လက်ရှိတွင် ChatGPT, Gemini နှင့် Gamma ကဲ့သို့သော AI ကိရိယာများ၏ ကြီးမားသော အလားအလာများကို စူးစမ်းလေ့လာနေပြီး ကျွန်ုပ်၏ နားလည်မှုနှင့် စွမ်းဆောင်ရည်များကို မြှင့်တင်ရန်အတွက် အသုံးပြုနေပါသည်။ ကျွန်ုပ်၏ စိတ်အားထက်သန်မှုက လက်တွေ့ဘဝတွင် စမတ်ကျသော ဖြေရှင်းနည်းများကို ပေါင်းစပ်ထည့်သွင်းရန် ရည်ရွယ်သည့် ဆန်းသစ်သော application နှင့် IoT စီမံကိန်းများတွင် လုပ်ဆောင်ရန် တွန်းအားပေးပါသည်။",
+                eduTitle: "ပညာရေး",
+                eduGrade12Title: "Grade 12 အောင်မြင်",
+                eduGrade12Desc: "အထက်တန်းပညာရေးကို အောင်မြင်စွာ ပြီးဆုံးခဲ့ပါသည်။",
+                eduKMDAdvTitle: "KMD ကွန်ပျူတာစင်တာ မကွေးတွင် တက်ရောက်နေဆဲ",
+                eduKMDAdvDesc: "Microsoft Office – အဆင့်မြင့်",
+                eduKMDBasicTitle: "Microsoft Office Basic Level ပြီးဆုံး",
+                eduKMDBasicDesc: "KMD ကွန်ပျူတာစင်တာ မကွေး",
+                skillsTitle: "ကျွမ်းကျင်မှုများ",
+                skillOfficeTitle: "Microsoft Office",
+                skillOfficeDesc: "(အခြေခံနှင့် အဆင့်မြင့်)",
+                skillCodingTitle: "ကွန်ပျူတာကုဒ်ရေးခြင်း အခြေခံများ",
+                skillCodingDesc: "အခြေခံ ပရိုဂရမ်ရေးသားခြင်း သဘောတရားများ",
+                skillAIToolsTitle: "AI ကိရိယာများ",
+                skillAIToolsDesc: "ChatGPT, Gemini, Gamma",
+                skillIoTTitle: "IoT နှင့် စမတ်နည်းပညာ",
+                skillIoTDesc: "စက်ပစ္စည်းများနှင့် စီမံကိန်းများ",
+                projectsTitle: "စီမံကိန်းများ",
+                projectAITitle: "AI-အခြေခံ Application စီမံကိန်းများ",
+                projectAIDesc: "လက်တွေ့ကမ္ဘာပြဿနာများကို ဖြေရှင်းရန်နှင့် အသုံးပြုသူအတွေ့အကြုံများကို မြှင့်တင်ရန်အတွက် AI ကိရိယာများနှင့် သဘောတရားများကို အသုံးပြု၍ ဉာဏ်ရည်ထက်မြက်သော application များကို တီထွင်ဖန်တီးခြင်း။",
+                projectIoTTitle: "စမတ်အိမ် IoT ထိန်းချုပ်မှု စီမံကိန်းများ",
+                projectIoTDesc: "စမတ်အိမ် အလိုအလျောက်စနစ်အတွက် ဆန်းသစ်သော IoT ဖြေရှင်းနည်းများကို ဖန်တီးခြင်း၊ ချောမွေ့သော ထိန်းချုပ်မှုနှင့် ထိရောက်မှုအတွက် စက်ပစ္စည်းများကို ပေါင်းစပ်ခြင်း။",
+                contactTitle: "ဆက်သွယ်ရန်",
+                contactIntro: "အောက်ပါလိုင်းများမှတစ်ဆင့် ကျွန်ုပ်ကို ဆက်သွယ်နိုင်ပါသည်။",
+                contactPhone: "ဖုန်း",
+                contactEmail: "အီးမေးလ်",
+                contactTelegram: "တယ်လီဂရမ်",
+                footerText: "&copy; 2025 သက်မှူးနိုင်။ မူပိုင်ခွင့်များ ရရှိပြီး။"
+            }
+        };
+
+        let currentLang = 'en'; // Default language is English
+
+        // Function to update content based on current language
+        function updateContent() {
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (content[currentLang][key]) {
+                    // For elements that might contain HTML (like aboutPara1)
+                    if (key === 'aboutPara1' || key === 'aboutPara2') {
+                        element.innerHTML = content[currentLang][key];
+                    } else {
+                        element.textContent = content[currentLang][key];
+                    }
+                }
+            });
+            // Update page title
+            document.title = content[currentLang].pageTitle;
+            // Update language toggle button text
+            const langToggleButton = document.getElementById('language-toggle');
+            const langToggleButtonMobile = document.getElementById('language-toggle-mobile');
+            if (currentLang === 'en') {
+                langToggleButton.textContent = 'MM';
+                langToggleButtonMobile.textContent = 'MM';
+            } else {
+                langToggleButton.textContent = 'EN';
+                langToggleButtonMobile.textContent = 'EN';
+            }
+        }
+
+        // JavaScript for Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
-    }
 
-    function deleteWorker(e, id) {
-      e.stopPropagation();
-      if (!confirm('Delete?')) return;
-      workers = workers.filter(w => w.id !== id);
-      saveWorkers();
-      renderWorkers(searchInput.value);
-    }
+        // Close mobile menu when a link is clicked
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
 
-    addWorkerBtn.onclick = () => workerModal.style.display = 'flex';
-    closeWorkerModal.onclick = () => {
-      workerModal.style.display = 'none';
-      workerNameInput.value = '';
-      dailyWageInput.value = '';
-    };
-    saveWorkerBtn.onclick = () => {
-      const name = workerNameInput.value.trim();
-      const wage = parseFloat(dailyWageInput.value);
-      if (!name || isNaN(wage)) return alert('Valid data required');
-      workers.push({ id: Date.now() + '', name, dailyWage: wage, attendance: [], advance: 0 });
-      saveWorkers();
-      renderWorkers();
-      closeWorkerModal.onclick();
-    };
-    searchInput.oninput = () => renderWorkers(searchInput.value);
+        // Language Toggle functionality
+        const languageToggle = document.getElementById('language-toggle');
+        const languageToggleMobile = document.getElementById('language-toggle-mobile');
 
-    window.openAttendance = id => {
-      currentWorkerId = id;
-      editIndex = null;
-      const w = workers.find(x => x.id === id);
-      attendanceTitle.textContent = `${w.name}'s Attendance`;
-      prepaymentInput.value = w.advance || '';
-      renderAttendance();
-      attendanceModal.style.display = 'flex';
-    };
-    closeAttendanceModal.onclick = () => attendanceModal.style.display = 'none';
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'mm' : 'en';
+            updateContent();
+        }
 
-    savePrepaymentBtn.onclick = () => {
-      const adv = parseFloat(prepaymentInput.value) || 0;
-      const w = workers.find(x => x.id === currentWorkerId);
-      w.advance = adv;
-      saveWorkers();
-      renderAttendance();
-    };
+        languageToggle.addEventListener('click', toggleLanguage);
+        languageToggleMobile.addEventListener('click', toggleLanguage);
 
-    function renderAttendance() {
-      attendanceList.innerHTML = '';
-      let total = 0;
-      const w = workers.find(x => x.id === currentWorkerId);
-      w.attendance.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach((a, i) => {
-        const rate = (a.time === 'မနက်' || a.time === 'ညနေ') ? 0.5 : 1;
-        const earned = w.dailyWage * rate;
-        total += earned;
-        const li = document.createElement('li');
-        li.innerHTML = `<span>${a.date} | ${a.site} | ${a.time} | ပြန်ငွေ: ${earned.toFixed(2)}</span><div><button onclick="editAttendance(event,${i})">✏️</button><button onclick="deleteAttendance(event,${i})">🗑️</button></div>`;
-        attendanceList.appendChild(li);
-      });
-      const net = total - (w.advance || 0);
-      attendanceSummary.textContent = `စုစုပေါင်း: ${total.toFixed(2)} | ကြိုယူ: ${(w.advance || 0).toFixed(2)} | ‌ရရှိငွေ: ${net.toFixed(2)}`;
-    }
+        // Initial content load
+        document.addEventListener('DOMContentLoaded', updateContent);
 
-    addAttendanceBtn.onclick = () => attendanceSheet.style.display = 'flex';
-    closeAttendanceSheet.onclick = () => {
-      attendanceSheet.style.display = 'none';
-      attDateInput.value = '';
-      siteNameInput.value = '';
-      timeOfDayInput.value = 'မနက်';
-      editIndex = null;
-    };
-    saveAttendanceBtn.onclick = () => {
-      const date = attDateInput.value;
-      const site = siteNameInput.value.trim();
-      const time = timeOfDayInput.value;
-      if (!date || !site) return alert('Valid data required');
-      const w = workers.find(x => x.id === currentWorkerId);
-      if (editIndex !== null) w.attendance[editIndex] = { date, site, time };
-      else w.attendance.push({ date, site, time });
-      saveWorkers();
-      renderAttendance();
-      closeAttendanceSheet.onclick();
-    };
-    window.deleteAttendance = (e, i) => {
-      e.stopPropagation();
-      if (!confirm('Delete?')) return;
-      workers.find(x => x.id === currentWorkerId).attendance.splice(i, 1);
-      saveWorkers();
-      renderAttendance();
-    };
-    window.editAttendance = (e, i) => {
-      e.stopPropagation();
-      const a = workers.find(x => x.id === currentWorkerId).attendance[i];
-      editIndex = i;
-      attDateInput.value = a.date;
-      siteNameInput.value = a.site;
-      timeOfDayInput.value = a.time;
-      attendanceSheet.style.display = 'flex';
-    };
+        // Smooth scroll for navigation links (already handled by html { scroll-behavior: smooth; })
+        // This part is more for robustness if CSS scroll-behavior is not fully supported or for custom logic
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-    renderWorkers();
-  </script></body>
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
 </html>
+
