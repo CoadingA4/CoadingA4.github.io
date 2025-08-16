@@ -3,467 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-key="pageTitle">Thet Hmue Naing - Personal Website</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title id="doc-title">Thet Hmue Naing - Personal Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Icon များကိုအသုံးပြုရန် Font Awesome ကိုထည့်သွင်းခြင်း -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujO8oP2k1E9q2s6gI1S5i1W2o9l3F0j9L0PqR+m7w0qQx4c1W1V1pQz/9l+o8pB/J+k+2w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        /* Custom styles for smooth scrolling and font */
-        html {
-            scroll-behavior: smooth;
-            font-family: 'Inter', sans-serif;
-        }
         body {
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            background-color: #F8FAFC; /* A very light, almost white background */
+            font-family: 'Inter', sans-serif;
+            /* နောက်ခံအတွက် အနက်ရောင်မှ နက်ပြာရောင်သို့ radial gradient */
+            background: radial-gradient(at top left, #030712 0%, #111827 50%, #030712 100%);
+            background-attachment: fixed;
+            /* This is the fix for the layout fitting issue */
+            overflow-x: hidden;
         }
-        /* Hero section background: a very subtle gradient or solid light color */
-        .hero-background {
-            background: linear-gradient(to bottom right, #E0F2FE, #F0F9FF); /* Soft blue gradient */
+        .bg-gradient-tech {
+            /* Card နောက်ခံများအတွက် အနက်ရောင် gradient */
+            background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(31, 41, 55, 0.9) 100%);
         }
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .bg-gradient-dark-blue {
+            /* CV ခလုတ်အတွက် နက်ပြာရောင် gradient */
+            background: linear-gradient(135deg, #1f2937 0%, #0b1a2a 100%);
         }
-        ::-webkit-scrollbar-track {
-            background: #e2e8f0; /* Light blue-gray for track */
-            border-radius: 10px;
+        .text-gradient {
+            /* မီးမောင်းထိုးပြထားသော စာသားများအတွက် အစိမ်းရောင် gradient */
+            background-image: linear-gradient(to right, #6EE7B7, #34D399, #84cc16);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #94A3B8; /* Medium gray-blue for thumb */
-            border-radius: 10px;
+        .accent-color {
+            color: #84cc16; /* အစိမ်းဖျော့ရောင် */
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748B; /* Darker gray-blue on hover */
+        .language-switcher {
+            top: 1rem;
+            right: 1rem;
         }
-
-        /* Keyframe animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        .animate-slideInUp {
-            animation: slideInUp 0.8s ease-out forwards;
-        }
-        .delay-100 { animation-delay: 0.1s; }
-        .delay-200 { animation-delay: 0.2s; }
-        .delay-300 { animation-delay: 0.3s; }
-        .delay-400 { animation-delay: 0.4s; }
-        .delay-500 { animation-delay: 0.5s; }
-
-        /* Section title underline animation */
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(to right, #3B82F6, #2563EB);
-            margin: 8px auto 0;
-            border-radius: 2px;
-            transition: width 0.4s ease-out;
-        }
-        .section-title:hover::after {
-            width: 60px; /* Adjust as needed */
+        .glass-effect {
+            /* modal နောက်ခံအတွက် Glassmorphism effect */
+            backdrop-filter: blur(10px);
+            background-color: rgba(17, 24, 39, 0.5);
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-gray-100">
 
-    <!-- Navigation Bar -->
-    <nav class="bg-white shadow-lg fixed w-full z-50 transition-all duration-300 ease-in-out">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#home" class="text-2xl font-extrabold text-blue-700 hover:text-blue-900 transition-colors duration-300">Thet Hmue Naing</a>
-
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="#home" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navHome">Home</a>
-                <a href="#about" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navAbout">About Me</a>
-                <a href="#education" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navEducation">Education</a>
-                <a href="#skills" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navSkills">Skills</a>
-                <a href="#projects" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navProjects">Projects</a>
-                <a href="#contact" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium text-lg" data-key="navContact">Contact Me</a>
-                <button id="language-toggle" class="ml-4 px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 font-semibold text-base">MM</button>
-            </div>
-
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center">
-                <button id="language-toggle-mobile" class="mr-4 px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 font-semibold text-sm">MM</button>
-                <button id="mobile-menu-button" class="text-gray-700 hover:text-blue-600 focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white py-2 shadow-inner">
-            <a href="#home" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navHome" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Home</a>
-            <a href="#about" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navAbout" onclick="document.getElementById('mobile-menu').classList.add('hidden')">About Me</a>
-            <a href="#education" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navEducation" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Education</a>
-            <a href="#skills" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navSkills" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Skills</a>
-            <a href="#projects" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navProjects" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Projects</a>
-            <a href="#contact" class="block px-4 py-3 text-gray-700 hover:bg-gray-100 transition-colors duration-300 font-medium" data-key="navContact" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Contact Me</a>
-        </div>
-    </nav>
-
-    <!-- Home Section (Hero) -->
-    <section id="home" class="hero-background h-screen flex items-center justify-center text-center relative pt-16 md:pt-0">
-        <div class="relative z-10 p-6 max-w-3xl mx-auto">
-            <!-- User Photo -->
-            <img src="https://i.ibb.co/wZbj1BYj/Screenshot-2024-07-17-21-19-15-77-e26099037060f7855018663249767222.jpg"
-                 onerror="this.onerror=null; this.src='https://placehold.co/160x160/aabbcc/ffffff?text=User+Photo';"
-                 alt="Thet Hmue Naing"
-                 class="w-40 h-40 rounded-full object-cover mx-auto mb-8 shadow-2xl border-4 border-white transform transition-transform duration-500 hover:scale-105 animate-slideInUp">
-            <!-- Headline -->
-            <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-4 animate-slideInUp delay-100">
-                <span data-key="heroGreeting">Hello, I'm</span> <span class="text-blue-700">Thet Hmue Naing</span>
-            </h1>
-            <!-- Short Intro -->
-            <p class="text-xl md:text-2xl text-gray-700 mb-10 animate-slideInUp delay-200" data-key="heroIntro">
-                A passionate IT enthusiast exploring the world of AI and IoT.
-            </p>
-            <a href="#about" class="inline-block bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 animate-slideInUp delay-300">
-                <i class="fas fa-arrow-down mr-2"></i> <span data-key="learnMoreBtn">Learn More</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- About Me Section -->
-    <section id="about" class="py-20 px-4 md:px-8 bg-white shadow-inner">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="aboutTitle">
-                About Me
-            </h2>
-            <div class="bg-gray-50 p-8 md:p-10 rounded-2xl shadow-xl text-left leading-relaxed text-lg text-gray-700 transition-all duration-500 hover:shadow-2xl animate-fadeIn delay-200">
-                <p class="mb-6" data-key="aboutPara1">
-                    I am <span class="font-semibold text-blue-700">Thet Hmue Naing</span>, a young and passionate IT enthusiast with a strong interest in Information Technology, Electronics, and Artificial Intelligence. Born on <span class="font-semibold">June 16, 2006</span>, I am currently <span class="font-semibold">19 years old</span> and constantly seeking new knowledge and challenges in the tech world.
-                </p>
-                <p data-key="aboutPara2">
-                    I am currently exploring the vast potential of AI tools like ChatGPT, Gemini, and Gamma, leveraging them to enhance my understanding and capabilities. My passion drives me to work on innovative application and IoT projects that aim to integrate smart solutions into real life, making technology both accessible and impactful.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education" class="py-20 px-4 md:px-8 bg-gray-100">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="eduTitle">
-                Education
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                <!-- Grade 12 -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-100">
-                    <i class="fas fa-graduation-cap text-4xl text-blue-600 mt-1"></i>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-key="eduGrade12Title">Completed Grade 12</h3>
-                        <p class="text-gray-600 text-base" data-key="eduGrade12Desc">Successfully completed secondary education.</p>
-                    </div>
-                </div>
-                <!-- KMD Computer Center (Advanced) -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-200">
-                    <i class="fas fa-laptop-code text-4xl text-blue-600 mt-1"></i>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-key="eduKMDAdvTitle">Studying at KMD Computer Center Magway</h3>
-                        <p class="text-gray-600 text-base" data-key="eduKMDAdvDesc">Microsoft Office – Advanced Level</p>
-                    </div>
-                </div>
-                <!-- KMD Computer Center (Basic) -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-300">
-                    <i class="fas fa-certificate text-4xl text-blue-600 mt-1"></i>
-                    <div>
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-key="eduKMDBasicTitle">Completed Microsoft Office Basic Level</h3>
-                        <p class="text-gray-600 text-base" data-key="eduKMDBasicDesc">KMD Computer Center Magway</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="py-20 px-4 md:px-8 bg-white shadow-inner">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="skillsTitle">
-                Skills
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                <!-- Skill Card: Microsoft Office -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-100">
-                    <i class="fas fa-file-excel text-6xl text-green-600 mb-5"></i>
-                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillOfficeTitle">Microsoft Office</h3>
-                    <p class="text-gray-600 text-sm mt-1" data-key="skillOfficeDesc">(Basic & Advanced)</p>
-                </div>
-                <!-- Skill Card: Computer Coding Fundamentals -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-200">
-                    <i class="fas fa-code text-6xl text-blue-600 mb-5"></i>
-                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillCodingTitle">Coding Fundamentals</h3>
-                    <p class="text-gray-600 text-sm mt-1" data-key="skillCodingDesc">Basic programming concepts</p>
-                </div>
-                <!-- Skill Card: AI Tools (ChatGPT, Gemini, Gamma) -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-300">
-                    <i class="fas fa-robot text-6xl text-red-600 mb-5"></i>
-                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillAIToolsTitle">AI Tools</h3>
-                    <p class="text-gray-600 text-sm mt-1" data-key="skillAIToolsDesc">ChatGPT, Gemini, Gamma</p>
-                </div>
-                <!-- Skill Card: IoT Devices & Smart Tech Projects -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-400">
-                    <i class="fas fa-lightbulb text-6xl text-yellow-600 mb-5"></i>
-                    <h3 class="text-xl font-semibold text-gray-900" data-key="skillIoTTitle">IoT & Smart Tech</h3>
-                    <p class="text-gray-600 text-sm mt-1" data-key="skillIoTDesc">Devices & Projects</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="py-20 px-4 md:px-8 bg-gray-100">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="projectsTitle">
-                Projects
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                <!-- Project Card: AI-Based Application Projects -->
-                <div class="bg-white p-8 rounded-2xl shadow-lg text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-100">
-                    <div class="flex items-center mb-5">
-                        <i class="fas fa-brain text-5xl text-purple-600 mr-5"></i>
-                        <h3 class="text-2xl font-semibold text-gray-900" data-key="projectAITitle">AI-Based Application Projects</h3>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed text-base" data-key="projectAIDesc">
-                        Developing intelligent applications leveraging AI tools and concepts to solve real-world problems and enhance user experiences.
-                    </p>
-                </div>
-                <!-- Project Card: Smart Home IoT Control Projects -->
-                <div class="bg-white p-8 rounded-2xl shadow-lg text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-2 animate-slideInUp delay-200">
-                    <div class="flex items-center mb-5">
-                        <i class="fas fa-home text-5xl text-teal-600 mr-5"></i>
-                        <h3 class="text-2xl font-semibold text-gray-900" data-key="projectIoTTitle">Smart Home IoT Control Projects</h3>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed text-base" data-key="projectIoTDesc">
-                        Creating innovative IoT solutions for smart home automation, integrating devices for seamless control and efficiency.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Me Section -->
-    <section id="contact" class="py-20 px-4 md:px-8 bg-white shadow-inner">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-12 section-title" data-key="contactTitle">
-                Contact Me
-            </h2>
-            <div class="bg-gray-50 p-8 md:p-10 rounded-2xl shadow-xl text-left transition-all duration-500 hover:shadow-2xl animate-fadeIn delay-100">
-                <p class="text-lg text-gray-700 mb-8" data-key="contactIntro">
-                    Feel free to reach out to me through any of the following channels:
-                </p>
-                <div class="space-y-8 md:space-y-0 md:flex md:justify-around md:items-center">
-                    <!-- Phone -->
-                    <div class="flex flex-col items-center space-y-3">
-                        <i class="fas fa-phone-alt text-4xl text-blue-600"></i>
-                        <div>
-                            <p class="font-semibold text-gray-900 text-lg" data-key="contactPhone">Phone</p>
-                            <a href="tel:+959896177740" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 block text-base">09896177740</a>
-                            <a href="tel:+959781356127" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 block text-base">09781356127</a>
-                        </div>
-                    </div>
-                    <!-- Email -->
-                    <div class="flex flex-col items-center space-y-3">
-                        <i class="fas fa-envelope text-4xl text-blue-600"></i>
-                        <div>
-                            <p class="font-semibold text-gray-900 text-lg" data-key="contactEmail">Email</p>
-                            <a href="mailto:thethmue853@gmail.com" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 text-base">thethmue853@gmail.com</a>
-                        </div>
-                    </div>
-                    <!-- Telegram -->
-                    <div class="flex flex-col items-center space-y-3">
-                        <i class="fab fa-telegram-plane text-4xl text-blue-600"></i>
-                        <div>
-                            <p class="font-semibold text-gray-900 text-lg" data-key="contactTelegram">Telegram</p>
-                            <a href="https://t.me/thet6667777" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-blue-600 transition-colors duration-300 text-base">@thet6667777</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8 text-center">
-        <div class="container mx-auto px-4">
-            <p data-key="footerText">&copy; 2025 Thet Hmue Naing. All rights reserved.</p>
-        </div>
-    </footer>
-
+    <!-- ဘာသာစကားအလိုက် အကြောင်းအရာများအတွက် JavaScript object -->
     <script>
-        // Language content object
         const content = {
-            en: {
-                pageTitle: "Thet Hmue Naing - Personal Website",
+            myanmar: {
+                title: "သက်မှူးနိုင် - ကိုယ်ပိုင်ဝဘ်ဆိုက်",
+                navHome: "ပင်မ",
+                navAbout: "ကျွန်တော်အကြောင်း",
+                navSkills: "ကျွမ်းကျင်မှုများ",
+                navContact: "ဆက်သွယ်ရန်",
+                heroTitle: "ကျွန်တော်က သက်မှူးနိုင်ပါ။",
+                heroSubtitle: "Website, Application ဖန်တီးသူနှင့် AI Prompt Engineer တစ်ဦးဖြစ်ပါတယ်။",
+                aboutSectionTitle: "ကျွန်တော်အကြောင်း",
+                aboutMeText: `ကျွန်တော်ဟာ နည်းပညာနယ်ပယ်မှာ စိတ်အားထက်သန်ပြီး အမြဲတမ်း သင်ယူလေ့လာနေသူတစ်ယောက်ဖြစ်ပါတယ်။ ၂၀၀၆ ခုနှစ်၊ ဇွန်လ ၁၆ ရက်နေ့မှာ မွေးဖွားခဲ့ပြီး အထက်တန်း Grade 12 ကို အောင်မြင်ခဲ့ပါတယ်။ ထို့အပြင် ISO အသိမှတ်ပြု KMD COMPUTER CENTRE MAGWAY ကနေ i offic (Basic) နဲ့ (Advance) Certificate နှစ်ခုကို ရရှိထားတာကြောင့် Office Software တွေနဲ့ ပတ်သက်တဲ့ အခြေခံအသိပညာတွေလည်း ခိုင်မာစွာ ပိုင်ဆိုင်ထားပါတယ်။ ဒီအတွေ့အကြုံတွေဟာ ကျွန်တော့်ရဲ့ Programming နဲ့ AI နယ်ပယ် လေ့လာမှုတွေကို အထောက်အကူပြုနေပါတယ်။`,
+                skillsSectionTitle: "ကျွမ်းကျင်မှုများ",
+                skillsText: `ကျွန်တော်ဟာ နည်းပညာမျိုးစုံကို လက်တွေ့အသုံးချနိုင်တဲ့ ကျွမ်းကျင်မှုများစွာကို ပိုင်ဆိုင်ထားပါတယ်။
+                <ul>
+                    <li><i class="fas fa-code text-lime-400 mr-2"></i><strong>Website & Application Development:</strong> HTML, CSS, JavaScript တို့နဲ့ Websites တွေ၊ Applications တွေကို ခေတ်မီတဲ့ နည်းပညာတွေအသုံးပြုပြီး ဖန်တီးနိုင်ပါတယ်။</li>
+                    <li><i class="fas fa-robot text-lime-400 mr-2"></i><strong>AI Prompt Engineering:</strong> AI (Artificial Intelligence) နည်းပညာကို ထိရောက်စွာ အသုံးပြုနိုင်ဖို့အတွက် Prompt Engineering မှာလည်း အထူးကျွမ်းကျင်ပါတယ်။ လိုအပ်တဲ့ ရလဒ်တွေရရှိအောင် AI Model တွေကို ညွှန်ကြားနိုင်တဲ့ အတတ်ပညာကိုလည်း ပိုင်ဆိုင်ထားပါတယ်။</li>
+                    <li><i class="fas fa-microchip text-lime-400 mr-2"></i><strong>Electronic Devices & IOT Projects:</strong> လက်တွေ့ကျတဲ့ Electronic ပစ္စည်းတွေ ဖန်တီးထုတ်လုပ်မှုမှာလည်း အတွေ့အကြုံများစွာရှိပါတယ်။ AC/DC Power Station စက်တွေအပြင် IOT (Internet of Things) နဲ့ ပတ်သက်တဲ့ Projects အတော်များများကို ကိုယ်တိုင်ဒီဇိုင်းဆွဲ၊ ထုတ်လုပ်ပြီး ရောင်းချနေပါတယ်။</li>
+                    <li><i class="fas fa-graduation-cap text-lime-400 mr-2"></i><strong>Future Focus:</strong> လက်ရှိမှာတော့ ကမ္ဘာကြီးကို ပြောင်းလဲပေးနိုင်မယ့် AI နည်းပညာနဲ့ Programming ဘာသာရပ်တွေကို နက်နက်ရှိုင်းရှိုင်း ဆက်လက်လေ့လာနေပြီး အနာဂတ်အတွက် အဆင်သင့်ပြင်ဆင်နေပါတယ်။</li>
+                </ul>`,
+                contactSectionTitle: "ဆက်သွယ်ရန်",
+                emailText: "အီးမေးလ်",
+                phoneText: "ဖုန်း",
+                telegramText: "တယ်လီဂရမ်",
+                cvButton: "CV ဒေါင်းလုဒ်လုပ်ရန်",
+                viewImageButton: "ပုံကြည့်ရန်",
+                closeButtonText: "ပိတ်ရန်",
+                languageButton: "English"
+            },
+            english: {
+                title: "Thet Hmue Naing - Personal Website",
                 navHome: "Home",
                 navAbout: "About Me",
-                navEducation: "Education",
                 navSkills: "Skills",
-                navProjects: "Projects",
-                navContact: "Contact Me",
-                heroGreeting: "Hello, I'm",
-                heroIntro: "A passionate IT enthusiast exploring the world of AI and IoT.",
-                learnMoreBtn: "Learn More",
-                aboutTitle: "About Me",
-                aboutPara1: "I am <span class=\"font-semibold text-blue-700\">Thet Hmue Naing</span>, a young and passionate IT enthusiast with a strong interest in Information Technology, Electronics, and Artificial Intelligence. Born on <span class=\"font-semibold\">June 16, 2006</span>, I am currently <span class=\"font-semibold\">19 years old</span> and constantly seeking new knowledge and challenges in the tech world.",
-                aboutPara2: "I am currently exploring the vast potential of AI tools like ChatGPT, Gemini, and Gamma, leveraging them to enhance my understanding and capabilities. My passion drives me to work on innovative application and IoT projects that aim to integrate smart solutions into real life, making technology both accessible and impactful.",
-                eduTitle: "Education",
-                eduGrade12Title: "Completed Grade 12",
-                eduGrade12Desc: "Successfully completed secondary education.",
-                eduKMDAdvTitle: "Studying at KMD Computer Center Magway",
-                eduKMDAdvDesc: "Microsoft Office – Advanced Level",
-                eduKMDBasicTitle: "Completed Microsoft Office Basic Level",
-                eduKMDBasicDesc: "KMD Computer Center Magway",
-                skillsTitle: "Skills",
-                skillOfficeTitle: "Microsoft Office",
-                skillOfficeDesc: "(Basic & Advanced)",
-                skillCodingTitle: "Coding Fundamentals",
-                skillCodingDesc: "Basic programming concepts",
-                skillAIToolsTitle: "AI Tools",
-                skillAIToolsDesc: "ChatGPT, Gemini, Gamma",
-                skillIoTTitle: "IoT & Smart Tech",
-                skillIoTDesc: "Devices & Projects",
-                projectsTitle: "Projects",
-                projectAITitle: "AI-Based Application Projects",
-                projectAIDesc: "Developing intelligent applications leveraging AI tools and concepts to solve real-world problems and enhance user experiences.",
-                projectIoTTitle: "Smart Home IoT Control Projects",
-                projectIoTDesc: "Creating innovative IoT solutions for smart home automation, integrating devices for seamless control and efficiency.",
-                contactTitle: "Contact Me",
-                contactIntro: "Feel free to reach out to me through any of the following channels:",
-                contactPhone: "Phone",
-                contactEmail: "Email",
-                contactTelegram: "Telegram",
-                footerText: "&copy; 2025 Thet Hmue Naing. All rights reserved."
-            },
-            mm: {
-                pageTitle: "သက်မှူးနိုင် - ကိုယ်ပိုင်ဝဘ်ဆိုဒ်",
-                navHome: "ပင်မစာမျက်နှာ",
-                navAbout: "ကျွန်ုပ်အကြောင်း",
-                navEducation: "ပညာရေး",
-                navSkills: "ကျွမ်းကျင်မှုများ",
-                navProjects: "စီမံကိန်းများ",
-                navContact: "ဆက်သွယ်ရန်",
-                heroGreeting: "မင်္ဂလာပါ၊ ကျွန်ုပ်က",
-                heroIntro: "AI နှင့် IoT ကမ္ဘာကို စူးစမ်းလေ့လာနေသော စိတ်အားထက်သန်သည့် IT ဝါသနာရှင်တစ်ဦးပါ။",
-                learnMoreBtn: "ပိုမိုလေ့လာရန်",
-                aboutTitle: "ကျွန်ုပ်အကြောင်း",
-                aboutPara1: "ကျွန်ုပ်သည် <span class=\"font-semibold text-blue-700\">သက်မှူးနိုင်</span> ဖြစ်ပြီး သတင်းအချက်အလက်နည်းပညာ၊ အီလက်ထရောနစ်နှင့် ဉာဏ်ရည်တုတို့တွင် စိတ်ဝင်စားမှုပြင်းပြသော လူငယ် IT ဝါသနာရှင်တစ်ဦး ဖြစ်ပါသည်။ <span class=\"font-semibold\">၂၀၀၆ ခုနှစ်၊ ဇွန်လ ၁၆ ရက်နေ့</span>တွင် မွေးဖွားခဲ့ပြီး လက်ရှိတွင် အသက် <span class=\"font-semibold\">၁၉ နှစ်</span>ရှိပြီဖြစ်ကာ နည်းပညာလောကတွင် အသိပညာအသစ်များနှင့် စိန်ခေါ်မှုများကို အမြဲရှာဖွေနေသူ ဖြစ်ပါသည်။",
-                aboutPara2: "လက်ရှိတွင် ChatGPT, Gemini နှင့် Gamma ကဲ့သို့သော AI ကိရိယာများ၏ ကြီးမားသော အလားအလာများကို စူးစမ်းလေ့လာနေပြီး ကျွန်ုပ်၏ နားလည်မှုနှင့် စွမ်းဆောင်ရည်များကို မြှင့်တင်ရန်အတွက် အသုံးပြုနေပါသည်။ ကျွန်ုပ်၏ စိတ်အားထက်သန်မှုက လက်တွေ့ဘဝတွင် စမတ်ကျသော ဖြေရှင်းနည်းများကို ပေါင်းစပ်ထည့်သွင်းရန် ရည်ရွယ်သည့် ဆန်းသစ်သော application နှင့် IoT စီမံကိန်းများတွင် လုပ်ဆောင်ရန် တွန်းအားပေးပါသည်။",
-                eduTitle: "ပညာရေး",
-                eduGrade12Title: "Grade 12 အောင်မြင်",
-                eduGrade12Desc: "အထက်တန်းပညာရေးကို အောင်မြင်စွာ ပြီးဆုံးခဲ့ပါသည်။",
-                eduKMDAdvTitle: "KMD ကွန်ပျူတာစင်တာ မကွေးတွင် တက်ရောက်နေဆဲ",
-                eduKMDAdvDesc: "Microsoft Office – အဆင့်မြင့်",
-                eduKMDBasicTitle: "Microsoft Office Basic Level ပြီးဆုံး",
-                eduKMDBasicDesc: "KMD ကွန်ပျူတာစင်တာ မကွေး",
-                skillsTitle: "ကျွမ်းကျင်မှုများ",
-                skillOfficeTitle: "Microsoft Office",
-                skillOfficeDesc: "(အခြေခံနှင့် အဆင့်မြင့်)",
-                skillCodingTitle: "ကွန်ပျူတာကုဒ်ရေးခြင်း အခြေခံများ",
-                skillCodingDesc: "အခြေခံ ပရိုဂရမ်ရေးသားခြင်း သဘောတရားများ",
-                skillAIToolsTitle: "AI ကိရိယာများ",
-                skillAIToolsDesc: "ChatGPT, Gemini, Gamma",
-                skillIoTTitle: "IoT နှင့် စမတ်နည်းပညာ",
-                skillIoTDesc: "စက်ပစ္စည်းများနှင့် စီမံကိန်းများ",
-                projectsTitle: "စီမံကိန်းများ",
-                projectAITitle: "AI-အခြေခံ Application စီမံကိန်းများ",
-                projectAIDesc: "လက်တွေ့ကမ္ဘာပြဿနာများကို ဖြေရှင်းရန်နှင့် အသုံးပြုသူအတွေ့အကြုံများကို မြှင့်တင်ရန်အတွက် AI ကိရိယာများနှင့် သဘောတရားများကို အသုံးပြု၍ ဉာဏ်ရည်ထက်မြက်သော application များကို တီထွင်ဖန်တီးခြင်း။",
-                projectIoTTitle: "စမတ်အိမ် IoT ထိန်းချုပ်မှု စီမံကိန်းများ",
-                projectIoTDesc: "စမတ်အိမ် အလိုအလျောက်စနစ်အတွက် ဆန်းသစ်သော IoT ဖြေရှင်းနည်းများကို ဖန်တီးခြင်း၊ ချောမွေ့သော ထိန်းချုပ်မှုနှင့် ထိရောက်မှုအတွက် စက်ပစ္စည်းများကို ပေါင်းစပ်ခြင်း။",
-                contactTitle: "ဆက်သွယ်ရန်",
-                contactIntro: "အောက်ပါလိုင်းများမှတစ်ဆင့် ကျွန်ုပ်ကို ဆက်သွယ်နိုင်ပါသည်။",
-                contactPhone: "ဖုန်း",
-                contactEmail: "အီးမေးလ်",
-                contactTelegram: "တယ်လီဂရမ်",
-                footerText: "&copy; 2025 သက်မှူးနိုင်။ မူပိုင်ခွင့်များ ရရှိပြီး။"
+                navContact: "Contact",
+                heroTitle: "I'm Thet Hmue Naing.",
+                heroSubtitle: "A Web & Application Developer and AI Prompt Engineer.",
+                aboutSectionTitle: "About Me",
+                aboutMeText: `I am a passionate and highly motivated individual dedicated to the world of technology. Born on June 16, 2006, I have completed my Grade 12 education and hold two ISO-certified i offic (Basic) and (Advance) Certificates from KMD COMPUTER CENTRE MAGWAY. This foundation in office software has complemented my journey into more advanced fields, providing me with a strong and versatile skill set for future challenges in programming and AI.`,
+                skillsSectionTitle: "My Skills",
+                skillsText: `I possess a diverse skill set that allows me to bridge the gap between digital and physical technologies.
+                <ul>
+                    <li><i class="fas fa-code text-lime-400 mr-2"></i><strong>Website & Application Development:</strong> I am proficient in creating modern, responsive websites and applications using foundational technologies like HTML, CSS, and JavaScript.</li>
+                    <li><i class="fas fa-robot text-lime-400 mr-2"></i><strong>AI Prompt Engineering:</strong> I have a specialized skill set in AI Prompt Engineering, allowing me to effectively communicate with and guide AI models to produce desired results for a variety of tasks.</li>
+                    <li><i class="fas fa-microchip text-lime-400 mr-2"></i><strong>Electronic Devices & IOT Projects:</strong> My expertise extends to hardware, where I have successfully designed, produced, and sold numerous electronic devices. This includes building AC/DC Power Station machines and implementing various IOT (Internet of Things) projects.</li>
+                    <li><i class="fas fa-graduation-cap text-lime-400 mr-2"></i><strong>Future Focus:</strong> I am currently dedicated to an in-depth study of AI technology and advanced programming languages, ensuring I stay at the forefront of innovation and am prepared for future challenges in the tech industry.</li>
+                </ul>`,
+                contactSectionTitle: "Get in Touch",
+                emailText: "Email",
+                phoneText: "Phone",
+                telegramText: "Telegram",
+                cvButton: "Download CV",
+                viewImageButton: "View Image",
+                closeButtonText: "Close",
+                languageButton: "Myanmar"
             }
         };
 
-        let currentLang = 'en'; // Default language is English
+        let currentLang = 'english'; // Website ကို English နဲ့စတင်ပြသမည်။
 
-        // Function to update content based on current language
         function updateContent() {
-            document.querySelectorAll('[data-key]').forEach(element => {
-                const key = element.getAttribute('data-key');
-                if (content[currentLang][key]) {
-                    // For elements that might contain HTML (like aboutPara1)
-                    if (key === 'aboutPara1' || key === 'aboutPara2') {
-                        element.innerHTML = content[currentLang][key];
-                    } else {
-                        element.textContent = content[currentLang][key];
-                    }
-                }
-            });
-            // Update page title
-            document.title = content[currentLang].pageTitle;
-            // Update language toggle button text
-            const langToggleButton = document.getElementById('language-toggle');
-            const langToggleButtonMobile = document.getElementById('language-toggle-mobile');
-            if (currentLang === 'en') {
-                langToggleButton.textContent = 'MM';
-                langToggleButtonMobile.textContent = 'MM';
-            } else {
-                langToggleButton.textContent = 'EN';
-                langToggleButtonMobile.textContent = 'EN';
-            }
+            // လက်ရှိဘာသာစကားအလိုက် အကြောင်းအရာများကို ရယူသည်။
+            const langData = content[currentLang];
+            // Website ရှိ သက်ဆိုင်ရာ element များကို update လုပ်သည်။
+            document.getElementById('doc-title').textContent = langData.title;
+            document.getElementById('hero-title').textContent = langData.heroTitle;
+            document.getElementById('hero-subtitle').textContent = langData.heroSubtitle;
+            document.getElementById('about-section-title').textContent = langData.aboutSectionTitle;
+            document.getElementById('about-me-text').innerHTML = langData.aboutMeText;
+            document.getElementById('skills-section-title').textContent = langData.skillsSectionTitle;
+            // Skills အပိုင်းကို ဘာသာစကားအလိုက် စာသားပြောင်းလဲခြင်း
+            document.getElementById('skills-text').innerHTML = langData.skillsText;
+            document.getElementById('contact-section-title').textContent = langData.contactSectionTitle;
+            document.getElementById('email-text').textContent = langData.emailText;
+            document.getElementById('phone-text').textContent = langData.phoneText;
+            document.getElementById('telegram-text').textContent = langData.telegramText;
+            document.getElementById('cv-button').textContent = langData.cvButton;
+            document.getElementById('view-image-button').textContent = langData.viewImageButton;
+            document.getElementById('close-modal-text').textContent = langData.closeButtonText;
+            document.getElementById('language-button').textContent = langData.languageButton;
         }
 
-        // JavaScript for Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Language Toggle functionality
-        const languageToggle = document.getElementById('language-toggle');
-        const languageToggleMobile = document.getElementById('language-toggle-mobile');
-
         function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'mm' : 'en';
+            // လက်ရှိဘာသာစကားကို ပြောင်းလဲပေးသည်။
+            currentLang = currentLang === 'myanmar' ? 'english' : 'myanmar';
+            // အကြောင်းအရာများကို ပြန်လည် update လုပ်သည်။
             updateContent();
         }
 
-        languageToggle.addEventListener('click', toggleLanguage);
-        languageToggleMobile.addEventListener('click', toggleLanguage);
+        document.addEventListener('DOMContentLoaded', () => {
+            updateContent();
+            const langButton = document.getElementById('language-button');
+            langButton.addEventListener('click', toggleLanguage);
+        });
+    </script>
 
-        // Initial content load
-        document.addEventListener('DOMContentLoaded', updateContent);
+    <!-- ဘာသာစကားပြောင်းခလုတ် -->
+    <div class="fixed language-switcher z-50">
+        <button id="language-button" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-full shadow-lg border border-gray-700 hover:bg-gray-700 transition duration-300">
+            Myanmar
+        </button>
+    </div>
 
-        // Smooth scroll for navigation links (already handled by html { scroll-behavior: smooth; })
-        // This part is more for robustness if CSS scroll-behavior is not fully supported or for custom logic
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+    <!-- ပင်မ container -->
+    <div class="min-h-screen flex flex-col items-center p-4 md:p-8 relative">
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        <!-- Hero အပိုင်း -->
+        <section class="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-8 py-16 px-6">
+            <!-- ဘယ်ဘက်ခြမ်း: ပုံနှင့် CV ခလုတ် -->
+            <div class="flex-shrink-0 relative w-full md:w-1/3">
+                <div class="relative w-48 h-48 mx-auto md:mx-0 rounded-full overflow-hidden border-4 border-lime-400 shadow-lg group">
+                    <img id="profile-img" src="https://i.ibb.co/LDqHfYvH/bad95a10-58ca-11f0-9d1b-61fef263279d.jpg" alt="သက်မှူးနိုင်၏ Profile ပုံ" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+                    <button id="view-image-button" class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 text-white text-sm font-bold rounded-full">
+                       View Image
+                    </button>
+                </div>
+                <div class="flex justify-center md:justify-start mt-8">
+                    <!-- Note: ဒီနေရာမှာ ခင်ဗျားရဲ့ CV ဖိုင်ရဲ့ URL ကို အစားထိုးထည့်သွင်းပေးပါ -->
+                    <a href="https://example.com/thet-hmue-naing-cv.pdf" download="Thet_Hmue_Naing_CV.pdf" id="cv-button" class="bg-gradient-dark-blue text-gray-200 font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-300">
+                        <i class="fas fa-download mr-2"></i>Download CV
+                    </a>
+                </div>
+            </div>
+            
+            <!-- ညာဘက်ခြမ်း: မိတ်ဆက်စာ -->
+            <div class="text-center md:text-left mt-8 md:mt-0 md:pl-10">
+                <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4">
+                    I'm Thet Hmue Naing.
+                </h1>
+                <p id="hero-subtitle" class="text-xl md:text-2xl font-light text-gradient">
+                    <i class="fas fa-laptop-code mr-2"></i>A Web & Application Developer and AI Prompt Engineer.
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start mt-6 text-gray-400">
+                    <a href="mailto:thethmue853@gmail.com" class="flex items-center mx-2 my-1 md:mx-0 md:mr-4 hover:text-lime-400 transition-colors">
+                        <i class="fas fa-envelope mr-2"></i>thethmue853@gmail.com
+                    </a>
+                    <a href="tel:09896177740" class="flex items-center mx-2 my-1 md:mx-0 md:mr-4 hover:text-lime-400 transition-colors">
+                        <i class="fas fa-phone mr-2"></i>09896177740
+                    </a>
+                    <a href="https://t.me/thet6667777" target="_blank" class="flex items-center mx-2 my-1 md:mx-0 md:mr-4 hover:text-lime-400 transition-colors">
+                        <i class="fab fa-telegram-plane mr-2"></i>t.me/thet6667777
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ကျွန်တော်အကြောင်း အပိုင်း -->
+        <section class="w-full max-w-5xl py-12 px-6">
+            <h2 id="about-section-title" class="text-3xl font-bold text-center text-white mb-8">
+                About Me
+            </h2>
+            <div class="bg-gradient-tech p-8 rounded-xl shadow-lg border border-gray-700">
+                <p id="about-me-text" class="text-lg text-gray-300 leading-relaxed text-center md:text-left">
+                    I am a passionate and highly motivated individual dedicated to the world of technology. Born on June 16, 2006, I have completed my Grade 12 education and hold two ISO-certified i offic (Basic) and (Advance) Certificates from KMD COMPUTER CENTRE MAGWAY. This foundation in office software has complemented my journey into more advanced fields, providing me with a strong and versatile skill set for future challenges in programming and AI.
+                </p>
+            </div>
+        </section>
+
+        <!-- ကျွမ်းကျင်မှုများ အပိုင်း -->
+        <section class="w-full max-w-5xl py-12 px-6">
+            <h2 id="skills-section-title" class="text-3xl font-bold text-center text-white mb-8">
+                My Skills
+            </h2>
+            <div class="bg-gradient-tech p-8 rounded-xl shadow-lg border border-gray-700">
+                <p id="skills-text" class="text-lg text-gray-300 leading-relaxed text-center md:text-left">
+                    <!-- JavaScript မှတဆင့် dynamic ဖြစ်အောင် ပြင်ဆင်ထားသည့် စာသားများ -->
+                </p>
+            </div>
+        </section>
+
+        <!-- ဆက်သွယ်ရန် အပိုင်း -->
+        <section class="w-full max-w-5xl py-12 px-6">
+            <h2 id="contact-section-title" class="text-3xl font-bold text-center text-white mb-8">
+                Get in Touch
+            </h2>
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="mailto:thethmue853@gmail.com" class="bg-gradient-tech p-6 rounded-xl shadow-lg border border-gray-700 flex flex-col items-center hover:bg-gray-800 transition-colors duration-300">
+                    <i class="fas fa-envelope text-4xl accent-color mb-2"></i>
+                    <span id="email-text" class="text-gray-300">Email</span>
+                </a>
+                <a href="tel:09896177740" class="bg-gradient-tech p-6 rounded-xl shadow-lg border border-gray-700 flex flex-col items-center hover:bg-gray-800 transition-colors duration-300">
+                    <i class="fas fa-phone text-4xl accent-color mb-2"></i>
+                    <span id="phone-text" class="text-gray-300">Phone</span>
+                </a>
+                <a href="https://t.me/thet6667777" target="_blank" class="bg-gradient-tech p-6 rounded-xl shadow-lg border border-gray-700 flex flex-col items-center hover:bg-gray-800 transition-colors duration-300">
+                    <i class="fab fa-telegram-plane text-4xl accent-color mb-2"></i>
+                    <span id="telegram-text" class="text-gray-300">Telegram</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ပုံချဲ့ကြည့်ရန် Modal -->
+        <div id="image-modal" class="fixed inset-0 glass-effect z-50 hidden flex items-center justify-center p-4">
+            <div class="relative w-full max-w-4xl max-h-full">
+                <button id="close-modal" class="absolute -top-10 -right-10 text-white text-3xl hover:text-gray-400 transition-colors">
+                    <i class="fas fa-times"></i>
+                    <span id="close-modal-text" class="ml-2">Close</span>
+                </button>
+                <div class="bg-black bg-opacity-75 rounded-lg overflow-hidden">
+                    <img id="modal-img" src="https://i.ibb.co/LDqHfYvH/bad95a10-58ca-11f0-9d1b-61fef263279d.jpg" class="w-full h-auto object-contain">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileImg = document.getElementById('profile-img');
+            const viewImgButton = document.getElementById('view-image-button');
+            const modal = document.getElementById('image-modal');
+            const closeModalButton = document.getElementById('close-modal');
+
+            function showModal() {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function hideModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            profileImg.addEventListener('click', showModal);
+            viewImgButton.addEventListener('click', showModal);
+            closeModalButton.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'image-modal') {
+                    hideModal();
+                }
             });
         });
     </script>
+
 </body>
 </html>
-
