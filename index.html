@@ -1,286 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="doc-title">Thet Hmue Naing - Personal Website</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Icon များကိုအသုံးပြုရန် Font Awesome ကိုထည့်သွင်းခြင်း -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujO8oP2k1E9q2s6gI1S5i1W2o9l3F0j9L0PqR+m7w0qQx4c1W1V1pQz/9l+o8pB/J+k+2w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Pyae Phyoe Kyaw</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for modern typography and Myanmar Unicode -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Custom CSS for the gradient background and typography */
         body {
-            font-family: 'Inter', sans-serif;
-            /* နောက်ခံအတွက် အနက်ရောင်မှ နက်ပြာရောင်သို့ radial gradient */
-            background: radial-gradient(at top left, #030712 0%, #111827 50%, #030712 100%);
-            background-attachment: fixed;
-            /* This is the fix for the layout fitting issue */
-            overflow-x: hidden;
+            font-family: 'Noto Sans Myanmar', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #001f3f 100%);
+            color: #e0e0e0;
         }
-        .bg-gradient-tech {
-            /* Card နောက်ခံများအတွက် အနက်ရောင် gradient */
-            background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(31, 41, 55, 0.9) 100%);
+        /* Custom scrollbar styling for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .bg-gradient-dark-blue {
-            /* CV ခလုတ်အတွက် နက်ပြာရောင် gradient */
-            background: linear-gradient(135deg, #1f2937 0%, #0b1a2a 100%);
+        ::-webkit-scrollbar-track {
+            background: #222;
         }
-        .text-gradient {
-            /* မီးမောင်းထိုးပြထားသော စာသားများအတွက် အစိမ်းရောင် gradient */
-            background-image: linear-gradient(to right, #6EE7B7, #34D399, #84cc16);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        ::-webkit-scrollbar-thumb {
+            background: #4a90e2;
+            border-radius: 4px;
         }
-        .accent-color {
-            color: #84cc16; /* အစိမ်းဖျော့ရောင် */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .language-switcher {
-            top: 1rem;
-            right: 1rem;
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .glass-effect {
-            /* modal နောက်ခံအတွက် Glassmorphism effect */
-            backdrop-filter: blur(10px);
-            background-color: rgba(17, 24, 39, 0.5);
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            color: #4a90e2;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #4a90e2;
+            border-radius: 2px;
+        }
+
+        /* Styles for the mobile drawer menu */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 40;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .drawer-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .drawer-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 75%;
+            max-width: 300px;
+            height: 100%;
+            background: #111;
+            z-index: 50;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .drawer-menu.is-open {
+            transform: translateX(0);
         }
     </style>
 </head>
-<body class="text-gray-100">
+<body class="antialiased">
 
-    <!-- ဘာသာစကားအလိုက် အကြောင်းအရာများအတွက် JavaScript object -->
-    <script>
-        const content = {
-            myanmar: {
-                title: "သက်မှူးနိုင် - ကိုယ်ပိုင်ဝဘ်ဆိုက်",
-                navHome: "ပင်မ",
-                navAbout: "ကျွန်တော်အကြောင်း",
-                navSkills: "ကျွမ်းကျင်မှုများ",
-                navContact: "ဆက်သွယ်ရန်",
-                heroTitle: "ကျွန်တော်က သက်မှူးနိုင်ပါ။",
-                heroSubtitle: "Website, Application ဖန်တီးသူနှင့် AI Prompt Engineer တစ်ဦးဖြစ်ပါတယ်။",
-                aboutSectionTitle: "ကျွန်တော်အကြောင်း",
-                aboutMeText: `ကျွန်တော်ဟာ နည်းပညာနယ်ပယ်မှာ စိတ်အားထက်သန်ပြီး အမြဲတမ်း သင်ယူလေ့လာနေသူတစ်ယောက်ဖြစ်ပါတယ်။ ၂၀၀၆ ခုနှစ်၊ ဇွန်လ ၁၆ ရက်နေ့မှာ မွေးဖွားခဲ့ပြီး အထက်တန်း Grade 12 ကို အောင်မြင်ခဲ့ပါတယ်။ ထို့အပြင် ISO အသိမှတ်ပြု KMD COMPUTER CENTRE MAGWAY ကနေ i offic (Basic) နဲ့ (Advance) Certificate နှစ်ခုကို ရရှိထားတာကြောင့် Office Software တွေနဲ့ ပတ်သက်တဲ့ အခြေခံအသိပညာတွေလည်း ခိုင်မာစွာ ပိုင်ဆိုင်ထားပါတယ်။ ဒီအတွေ့အကြုံတွေဟာ ကျွန်တော့်ရဲ့ Programming နဲ့ AI နယ်ပယ် လေ့လာမှုတွေကို အထောက်အကူပြုနေပါတယ်။`,
-                skillsSectionTitle: "ကျွမ်းကျင်မှုများ",
-                skillsText: `ကျွန်တော်ဟာ နည်းပညာမျိုးစုံကို လက်တွေ့အသုံးချနိုင်တဲ့ ကျွမ်းကျင်မှုများစွာကို ပိုင်ဆိုင်ထားပါတယ်။
-                <ul>
-                    <li><i class="fas fa-code text-lime-400 mr-2"></i><strong>Website & Application Development:</strong> HTML, CSS, JavaScript တို့နဲ့ Websites တွေ၊ Applications တွေကို ခေတ်မီတဲ့ နည်းပညာတွေအသုံးပြုပြီး ဖန်တီးနိုင်ပါတယ်။</li>
-                    <li><i class="fas fa-robot text-lime-400 mr-2"></i><strong>AI Prompt Engineering:</strong> AI (Artificial Intelligence) နည်းပညာကို ထိရောက်စွာ အသုံးပြုနိုင်ဖို့အတွက် Prompt Engineering မှာလည်း အထူးကျွမ်းကျင်ပါတယ်။ လိုအပ်တဲ့ ရလဒ်တွေရရှိအောင် AI Model တွေကို ညွှန်ကြားနိုင်တဲ့ အတတ်ပညာကိုလည်း ပိုင်ဆိုင်ထားပါတယ်။</li>
-                    <li><i class="fas fa-microchip text-lime-400 mr-2"></i><strong>Electronic Devices & IOT Projects:</strong> လက်တွေ့ကျတဲ့ Electronic ပစ္စည်းတွေ ဖန်တီးထုတ်လုပ်မှုမှာလည်း အတွေ့အကြုံများစွာရှိပါတယ်။ AC/DC Power Station စက်တွေအပြင် IOT (Internet of Things) နဲ့ ပတ်သက်တဲ့ Projects အတော်များများကို ကိုယ်တိုင်ဒီဇိုင်းဆွဲ၊ ထုတ်လုပ်ပြီး ရောင်းချနေပါတယ်။</li>
-                    <li><i class="fas fa-graduation-cap text-lime-400 mr-2"></i><strong>Future Focus:</strong> လက်ရှိမှာတော့ ကမ္ဘာကြီးကို ပြောင်းလဲပေးနိုင်မယ့် AI နည်းပညာနဲ့ Programming ဘာသာရပ်တွေကို နက်နက်ရှိုင်းရှိုင်း ဆက်လက်လေ့လာနေပြီး အနာဂတ်အတွက် အဆင်သင့်ပြင်ဆင်နေပါတယ်။</li>
-                </ul>`,
-                contactSectionTitle: "ဆက်သွယ်ရန်",
-                emailText: "အီးမေးလ်",
-                phoneText: "ဖုန်း",
-                telegramText: "တယ်လီဂရမ်",
-                cvButton: "CV ဒေါင်းလုဒ်လုပ်ရန်",
-                viewImageButton: "ပုံကြည့်ရန်",
-                closeButtonText: "ပိတ်ရန်",
-                languageButton: "English"
-            },
-            english: {
-                title: "Thet Hmue Naing - Personal Website",
-                navHome: "Home",
-                navAbout: "About Me",
-                navSkills: "Skills",
-                navContact: "Contact",
-                heroTitle: "I'm Thet Hmue Naing.",
-                heroSubtitle: "A Web & Application Developer and AI Prompt Engineer.",
-                aboutSectionTitle: "About Me",
-                aboutMeText: `I am a passionate and highly motivated individual dedicated to the world of technology. Born on June 16, 2006, I have completed my Grade 12 education and hold two ISO-certified i offic (Basic) and (Advance) Certificates from KMD COMPUTER CENTRE MAGWAY. This foundation in office software has complemented my journey into more advanced fields, providing me with a strong and versatile skill set for future challenges in programming and AI.`,
-                skillsSectionTitle: "My Skills",
-                skillsText: `I possess a diverse skill set that allows me to bridge the gap between digital and physical technologies.
-                <ul>
-                    <li><i class="fas fa-code text-lime-400 mr-2"></i><strong>Website & Application Development:</strong> I am proficient in creating modern, responsive websites and applications using foundational technologies like HTML, CSS, and JavaScript.</li>
-                    <li><i class="fas fa-robot text-lime-400 mr-2"></i><strong>AI Prompt Engineering:</strong> I have a specialized skill set in AI Prompt Engineering, allowing me to effectively communicate with and guide AI models to produce desired results for a variety of tasks.</li>
-                    <li><i class="fas fa-microchip text-lime-400 mr-2"></i><strong>Electronic Devices & IOT Projects:</strong> My expertise extends to hardware, where I have successfully designed, produced, and sold numerous electronic devices. This includes building AC/DC Power Station machines and implementing various IOT (Internet of Things) projects.</li>
-                    <li><i class="fas fa-graduation-cap text-lime-400 mr-2"></i><strong>Future Focus:</strong> I am currently dedicated to an in-depth study of AI technology and advanced programming languages, ensuring I stay at the forefront of innovation and am prepared for future challenges in the tech industry.</li>
-                </ul>`,
-                contactSectionTitle: "Get in Touch",
-                emailText: "Email",
-                phoneText: "Phone",
-                telegramText: "Telegram",
-                cvButton: "Download CV",
-                viewImageButton: "View Image",
-                closeButtonText: "Close",
-                languageButton: "Myanmar"
-            }
-        };
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-black bg-opacity-80 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold text-white hover:text-[#4a90e2] transition-colors">Pyae Phyoe Kyaw</a>
+            
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#about" class="text-white hover:text-[#4a90e2] transition-colors font-medium">ကျွန်ုပ်အကြောင်း</a>
+                <a href="#skills" class="text-white hover:text-[#4a90e2] transition-colors font-medium">စွမ်းရည်များ</a>
+                <a href="#contact" class="text-white hover:text-[#4a90e2] transition-colors font-medium">ဆက်သွယ်ရန်</a>
+            </div>
 
-        let currentLang = 'english'; // Website ကို English နဲ့စတင်ပြသမည်။
+            <!-- Mobile Drawer Menu Button (Hamburger) -->
+            <button id="drawer-button" class="md:hidden text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </nav>
 
-        function updateContent() {
-            // လက်ရှိဘာသာစကားအလိုက် အကြောင်းအရာများကို ရယူသည်။
-            const langData = content[currentLang];
-            // Website ရှိ သက်ဆိုင်ရာ element များကို update လုပ်သည်။
-            document.getElementById('doc-title').textContent = langData.title;
-            document.getElementById('hero-title').textContent = langData.heroTitle;
-            document.getElementById('hero-subtitle').textContent = langData.heroSubtitle;
-            document.getElementById('about-section-title').textContent = langData.aboutSectionTitle;
-            document.getElementById('about-me-text').innerHTML = langData.aboutMeText;
-            document.getElementById('skills-section-title').textContent = langData.skillsSectionTitle;
-            // Skills အပိုင်းကို ဘာသာစကားအလိုက် စာသားပြောင်းလဲခြင်း
-            document.getElementById('skills-text').innerHTML = langData.skillsText;
-            document.getElementById('contact-section-title').textContent = langData.contactSectionTitle;
-            document.getElementById('email-text').textContent = langData.emailText;
-            document.getElementById('phone-text').textContent = langData.phoneText;
-            document.getElementById('telegram-text').textContent = langData.telegramText;
-            document.getElementById('cv-button').textContent = langData.cvButton;
-            document.getElementById('view-image-button').textContent = langData.viewImageButton;
-            document.getElementById('close-modal-text').textContent = langData.closeButtonText;
-            document.getElementById('language-button').textContent = langData.languageButton;
-        }
-
-        function toggleLanguage() {
-            // လက်ရှိဘာသာစကားကို ပြောင်းလဲပေးသည်။
-            currentLang = currentLang === 'myanmar' ? 'english' : 'myanmar';
-            // အကြောင်းအရာများကို ပြန်လည် update လုပ်သည်။
-            updateContent();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updateContent();
-            const langButton = document.getElementById('language-button');
-            langButton.addEventListener('click', toggleLanguage);
-        });
-    </script>
-
-    <!-- ဘာသာစကားပြောင်းခလုတ် -->
-    <div class="fixed language-switcher z-50">
-        <button id="language-button" class="bg-gray-800 text-gray-200 px-4 py-2 rounded-full shadow-lg border border-gray-700 hover:bg-gray-700 transition duration-300">
-            Myanmar
-        </button>
+    <!-- Mobile Drawer Menu -->
+    <div id="drawer-overlay" class="drawer-overlay"></div>
+    <div id="drawer-menu" class="drawer-menu flex flex-col items-center pt-16 space-y-8">
+        <a href="#about" class="text-white text-2xl font-semibold hover:text-[#4a90e2] transition-colors" onclick="toggleDrawer()">ကျွန်ုပ်အကြောင်း</a>
+        <a href="#skills" class="text-white text-2xl font-semibold hover:text-[#4a90e2] transition-colors" onclick="toggleDrawer()">စွမ်းရည်များ</a>
+        <a href="#contact" class="text-white text-2xl font-semibold hover:text-[#4a90e2] transition-colors" onclick="toggleDrawer()">ဆက်သွယ်ရန်</a>
     </div>
 
-    <!-- ပင်မ container -->
-    <div class="min-h-screen flex flex-col items-center p-4 md:p-8 relative">
+    <!-- Home Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center p-8 text-center">
+        <div class="max-w-4xl mx-auto space-y-6 fade-in flex flex-col items-center">
+            <!-- Profile Image with new URL -->
+            <img 
+                src="https://i.ibb.co/wNjQbkrC/10d00b40-7f26-11f0-83c0-1fabb257df8c.jpg" 
+                alt="Pyae Phyoe Kyaw's profile picture"
+                class="w-48 h-48 md:w-64 md:h-64 rounded-full mb-6 object-cover shadow-2xl border-4 border-white transform transition-transform hover:scale-105"
+            >
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight text-white">
+                Pyae Phyoe Kyaw
+            </h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+                လုပ်ငန်းအတွေ့အကြုံ ရယူချင်ပြီး အနာဂတ်အတွက် ရည်မှန်းချက်များစွာရှိနေတဲ့ လူငယ်တစ်ယောက်ပါ။
+            </p>
+            <p class="text-sm md:text-base italic text-[#4a90e2] font-semibold pt-4">
+                "ကြီးစွာသောအိပ်မက်မက်ပါ၊ ကြိုးစားပါ။"
+            </p>
+        </div>
+    </section>
 
-        <!-- Hero အပိုင်း -->
-        <section class="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-8 py-16 px-6">
-            <!-- ဘယ်ဘက်ခြမ်း: ပုံနှင့် CV ခလုတ် -->
-            <div class="flex-shrink-0 relative w-full md:w-1/3">
-                <div class="relative w-48 h-48 mx-auto md:mx-0 rounded-full overflow-hidden border-4 border-lime-400 shadow-lg group">
-                    <img id="profile-img" src="https://i.ibb.co/LDqHfYvH/bad95a10-58ca-11f0-9d1b-61fef263279d.jpg" alt="သက်မှူးနိုင်၏ Profile ပုံ" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 cursor-pointer">
-                    <button id="view-image-button" class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 text-white text-sm font-bold rounded-full">
-                       View Image
-                    </button>
+    <!-- About Section -->
+    <section id="about" class="min-h-screen flex items-center py-16 p-8">
+        <div class="container mx-auto max-w-4xl fade-in">
+            <h2 class="text-4xl font-bold section-title">ကျွန်ုပ်အကြောင်း</h2>
+            <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 space-y-6">
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-lg">မွေးသက္ကရာဇ်: <span class="text-white font-medium">13.2.2006</span></p>
                 </div>
-                <div class="flex justify-center md:justify-start mt-8">
-                    <!-- CV File link here -->
-                    <a href="https://drive.google.com/uc?export=download&id=1NxmLeCobB3ftuqONN0GRKiC98IBGrzAt" download="Thet_Hmue_Naing_CV.pdf" id="cv-button" class="bg-gradient-dark-blue text-gray-200 font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-800 transition-colors duration-300">
-                        <i class="fas fa-download mr-2"></i>Download CV
-                    </a>
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                    </svg>
+                    <p class="text-lg">ပညာရေး: <span class="text-white font-medium">Grade 12 (အောင်မြင်ပြီးစီး)</span></p>
                 </div>
-            </div>
-            
-            <!-- ညာဘက်ခြမ်း: မိတ်ဆက်စာ -->
-            <div class="text-center md:text-left mt-8 md:mt-0 md:pl-10">
-                <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-4">
-                    I'm Thet Hmue Naing.
-                </h1>
-                <p id="hero-subtitle" class="text-xl md:text-2xl font-light text-gradient">
-                    <i class="fas fa-laptop-code mr-2"></i>A Web & Application Developer and AI Prompt Engineer.
-                </p>
-                <div class="flex flex-wrap justify-center md:justify-start mt-6 text-gray-400">
-                    <a href="mailto:thethmue853@gmail.com" class="flex items-center mx-2 my-1 md:mx-0 md:mr-4 hover:text-lime-400 transition-colors">
-                        <i class="fas fa-envelope mr-2"></i>thethmue853@gmail.com
-                    </a>
-                    <a href="tel:09896177740" class="flex items-center mx-2 my-1 md:mx-0 md:mr-4 hover:text-lime-400 transition-colors">
-                        <i class="fas fa-phone mr-2"></i>09896177740
-                    </a>
-                    <a href="https://t.me/thet6667777" target="_blank" class="flex items-center mx-2 my-1 md:mx-0 md:mr-4 hover:text-lime-400 transition-colors">
-                        <i class="fab fa-telegram-plane mr-2"></i>t.me/thet6667777
-                    </a>
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                    <p class="text-lg">ဝါသနာများ: <span class="text-white font-medium">သစ်ပင်စိုက်တယ်၊ ကြောင်ချစ်တယ်</span></p>
                 </div>
-            </div>
-        </section>
-
-        <!-- ကျွန်တော်အကြောင်း အပိုင်း -->
-        <section class="w-full max-w-5xl py-12 px-6">
-            <h2 id="about-section-title" class="text-3xl font-bold text-center text-white mb-8">
-                About Me
-            </h2>
-            <div class="bg-gradient-tech p-8 rounded-xl shadow-lg border border-gray-700">
-                <p id="about-me-text" class="text-lg text-gray-300 leading-relaxed text-center md:text-left">
-                    I am a passionate and highly motivated individual dedicated to the world of technology. Born on June 16, 2006, I have completed my Grade 12 education and hold two ISO-certified i offic (Basic) and (Advance) Certificates from KMD COMPUTER CENTRE MAGWAY. This foundation in office software has complemented my journey into more advanced fields, providing me with a strong and versatile skill set for future challenges in programming and AI.
-                </p>
-            </div>
-        </section>
-
-        <!-- ကျွမ်းကျင်မှုများ အပိုင်း -->
-        <section class="w-full max-w-5xl py-12 px-6">
-            <h2 id="skills-section-title" class="text-3xl font-bold text-center text-white mb-8">
-                My Skills
-            </h2>
-            <div class="bg-gradient-tech p-8 rounded-xl shadow-lg border border-gray-700">
-                <p id="skills-text" class="text-lg text-gray-300 leading-relaxed text-center md:text-left">
-                    <!-- JavaScript မှတဆင့် dynamic ဖြစ်အောင် ပြင်ဆင်ထားသည့် စာသားများ -->
-                </p>
-            </div>
-        </section>
-
-        <!-- ဆက်သွယ်ရန် အပိုင်း -->
-        <section class="w-full max-w-5xl py-12 px-6">
-            <h2 id="contact-section-title" class="text-3xl font-bold text-center text-white mb-8">
-                Get in Touch
-            </h2>
-            <div class="flex flex-wrap justify-center gap-6">
-                <a href="mailto:thethmue853@gmail.com" class="bg-gradient-tech p-6 rounded-xl shadow-lg border border-gray-700 flex flex-col items-center hover:bg-gray-800 transition-colors duration-300">
-                    <i class="fas fa-envelope text-4xl accent-color mb-2"></i>
-                    <span id="email-text" class="text-gray-300">Email</span>
-                </a>
-                <a href="tel:09896177740" class="bg-gradient-tech p-6 rounded-xl shadow-lg border border-gray-700 flex flex-col items-center hover:bg-gray-800 transition-colors duration-300">
-                    <i class="fas fa-phone text-4xl accent-color mb-2"></i>
-                    <span id="phone-text" class="text-gray-300">Phone</span>
-                </a>
-                <a href="https://t.me/thet6667777" target="_blank" class="bg-gradient-tech p-6 rounded-xl shadow-lg border border-gray-700 flex flex-col items-center hover:bg-gray-800 transition-colors duration-300">
-                    <i class="fab fa-telegram-plane text-4xl accent-color mb-2"></i>
-                    <span id="telegram-text" class="text-gray-300">Telegram</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- ပုံချဲ့ကြည့်ရန် Modal -->
-        <div id="image-modal" class="fixed inset-0 glass-effect z-50 hidden flex items-center justify-center p-4">
-            <div class="relative w-full max-w-4xl max-h-full">
-                <button id="close-modal" class="absolute -top-10 -right-10 text-white text-3xl hover:text-gray-400 transition-colors">
-                    <i class="fas fa-times"></i>
-                    <span id="close-modal-text" class="ml-2">Close</span>
-                </button>
-                <div class="bg-black bg-opacity-75 rounded-lg overflow-hidden">
-                    <img id="modal-img" src="https://i.ibb.co/LDqHfYvH/bad95a10-58ca-11f0-9d1b-61fef263279d.jpg" class="w-full h-auto object-contain">
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 018.382 5.044m-12.046 5.013c.045.549.09.855.131 1.054.12.529.28.988.47 1.346.33.633.725 1.135 1.192 1.503.467.368 1.018.683 1.638.932 1.487.62 3.193 1.025 5.068 1.025s3.581-.405 5.068-1.025c.62-.249 1.171-.564 1.638-.932.467-.368.862-.87 1.192-1.503.19-.358.35-.817.47-1.346.041-.199.086-.505.131-1.054" />
+                    </svg>
+                    <p class="text-lg">ရည်ရွယ်ချက်: <span class="text-white font-medium">လုပ်ငန်းအတွေ့အကြုံ ရယူချင်တယ်။ ကျောင်းတက်ဖို့ ပိုက်ဆံလိုချင်တယ်။</span></p>
                 </div>
             </div>
         </div>
+    </section>
 
-    </div>
+    <!-- Skills Section -->
+    <section id="skills" class="min-h-screen flex items-center py-16 p-8">
+        <div class="container mx-auto max-w-4xl fade-in">
+            <h2 class="text-4xl font-bold section-title">စွမ်းရည်များ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <!-- Skill 1: Reading -->
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 transform hover:scale-105 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#4a90e2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.485 9.166 5 8 5c-3.355 0-6 2.5-6 6.253v2.364c0 2.21 2 4 4 4 1.25 0 2.222-.295 2.909-.728L12 18.253m0-13c1.168-.768 2.834-1.253 4-1.253 3.355 0 6 2.5 6 6.253v2.364c0 2.21-2 4-4 4-1.25 0-2.222-.295-2.909-.728L12 18.253m0-13c1.168-.768 2.834-1.253 4-1.253 3.355 0 6 2.5 6 6.253v2.364c0 2.21-2 4-4 4-1.25 0-2.222-.295-2.909-.728L12 18.253" />
+                    </svg>
+                    <p class="text-xl font-semibold">စာဖတ်</p>
+                </div>
+                <!-- Skill 2: Writing -->
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 transform hover:scale-105 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#4a90e2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 013.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    <p class="text-xl font-semibold">စာရေး</p>
+                </div>
+                <!-- Skill 3: Poetry -->
+                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 transform hover:scale-105 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#4a90e2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 10.5h-10m10 4h-10m10 4h-10M17.5 7.5L21 11" />
+                    </svg>
+                    <p class="text-xl font-semibold">ကဗျာတိုရေး</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Contact Section -->
+    <section id="contact" class="min-h-screen flex items-center py-16 p-8">
+        <div class="container mx-auto max-w-4xl fade-in">
+            <h2 class="text-4xl font-bold section-title">ဆက်သွယ်ရန်</h2>
+            <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 space-y-6">
+                <!-- Phone (clickable) -->
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.134l-1.897.948a1 1 0 00-.598.982l.608 2.828a1 1 0 00.981.608l.948-1.897a1 1 0 011.134-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                    <a href="tel:09883339646" class="text-lg text-white hover:underline transition-all">09883339646</a>
+                </div>
+                <!-- Email (clickable) -->
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-6 9h4a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2h4" />
+                    </svg>
+                    <a href="mailto:pyaephyokyaw202526@gmail.com" class="text-lg text-white hover:underline transition-all">pyaephyokyaw202526@gmail.com</a>
+                </div>
+                <!-- Telegram (clickable) -->
+                <div class="flex items-start md:items-center space-x-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10l-2 5L12 17l5-2-2-5-3-2z" />
+                    </svg>
+                    <a href="https://t.me/axerix07" target="_blank" rel="noopener noreferrer" class="text-lg text-white hover:underline transition-all">@axerix07</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-gray-500 text-sm">
+        <p>Portfolio Website © 2025 Pyae Phyoe Kyaw</p>
+    </footer>
+
+    <!-- JavaScript for fade-in effect and drawer menu -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const profileImg = document.getElementById('profile-img');
-            const viewImgButton = document.getElementById('view-image-button');
-            const modal = document.getElementById('image-modal');
-            const closeModalButton = document.getElementById('close-modal');
-
-            function showModal() {
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function hideModal() {
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }
-
-            profileImg.addEventListener('click', showModal);
-            viewImgButton.addEventListener('click', showModal);
-            closeModalButton.addEventListener('click', hideModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target.id === 'image-modal') {
-                    hideModal();
+        // Intersection Observer for fade-in effect on scroll
+        const sections = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
                 }
             });
+        }, {
+            threshold: 0.1
         });
-    </script>
+        sections.forEach(section => {
+            observer.observe(section);
+        });
 
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Drawer Menu functionality for mobile
+        const drawerButton = document.getElementById('drawer-button');
+        const drawerMenu = document.getElementById('drawer-menu');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+
+        function toggleDrawer() {
+            const isOpen = drawerMenu.classList.toggle('is-open');
+            drawerOverlay.classList.toggle('is-open', isOpen);
+        }
+
+        drawerButton.addEventListener('click', toggleDrawer);
+        drawerOverlay.addEventListener('click', toggleDrawer);
+    </script>
 </body>
 </html>
+
+24
