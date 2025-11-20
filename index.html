@@ -1,288 +1,337 @@
-<!DOCTYPE html>
-<html lang="my" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pyae Phyoe Kyaw</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts for modern typography and Myanmar Unicode -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Custom CSS for the gradient background and typography */
-        body {
-            font-family: 'Noto Sans Myanmar', 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #001f3f 100%);
-            color: #e0e0e0;
-        }
-        /* Custom scrollbar styling for a cleaner look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #222;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4a90e2;
-            border-radius: 4px;
-        }
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-            margin-bottom: 2rem;
-            color: #4a90e2;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background-color: #4a90e2;
-            border-radius: 2px;
-        }
+import React, { useState, useEffect } from 'react';
+import { Mail, Phone, Calendar, Book, Code, User, Briefcase, ExternalLink, Github, Linkedin, ChevronDown, Menu, X, Zap, Cpu, Battery } from 'lucide-react';
 
-        /* Styles for the mobile drawer menu */
-        .drawer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 40;
-            transition: opacity 0.3s ease-in-out;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .drawer-overlay.is-open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .drawer-menu {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 75%;
-            max-width: 300px;
-            height: 100%;
-            background: #111;
-            z-index: 50;
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-        }
-        .drawer-menu.is-open {
-            transform: translateX(0);
-        }
-    </style>
-</head>
-<body class="antialiased">
+const Portfolio = () => {
+  const [activeSection, setActiveSection] = useState('home');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-black bg-opacity-80 backdrop-blur-sm shadow-lg">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#home" class="text-xl font-bold text-white hover:text-[#4a90e2] transition-colors">Pyae Phyoe Kyaw</a>
-            
-            <!-- Desktop Navigation Links -->
-            <div class="hidden md:flex space-x-6">
-                <a href="#about" class="text-white hover:text-[#4a90e2] transition-colors font-medium">ကျွန်ုပ်အကြောင်း</a>
-                <a href="#skills" class="text-white hover:text-[#4a90e2] transition-colors font-medium">စွမ်းရည်များ</a>
-                <a href="#contact" class="text-white hover:text-[#4a90e2] transition-colors font-medium">ဆက်သွယ်ရန်</a>
-            </div>
+  // Scroll listener for navbar styling
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-            <!-- Mobile Drawer Menu Button (Hamburger) -->
-            <button id="drawer-button" class="md:hidden text-white focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
+  // Data Configuration (Updated with new info)
+  const personalInfo = {
+    name: "Thet Hmue Naing",
+    role: "Hardware Engineering Student & Power Systems Developer",
+    dob: "16 June, 2006",
+    university: "Computer University (Hardware Major)",
+    email: "thethmue853@gmail.com",
+    phone: "09-896177740",
+    bio: "Computer University တွင် Hardware မေဂျာဖြင့် တက်ရောက်နေပြီး Power Station များကို ကိုယ်တိုင်တီထွင်ဖန်တီး ရောင်းချနေသူ ဖြစ်ပါသည်။ လက်ရှိနည်းပညာများကို အမြဲလေ့လာပြီး Project များကို အချိန်နှင့်အမျှ အဆင့်မြှင့်တင်နေပါသည်။"
+  };
+
+  const skills = [
+    { name: "Power Electronics", level: 90 },
+    { name: "Circuit Design", level: 85 },
+    { name: "Microcontrollers (Arduino)", level: 80 },
+    { name: "Hardware Troubleshooting", level: 85 },
+    { name: "C++ / Embedded C", level: 70 },
+    { name: "PCB Design", level: 65 }
+  ];
+
+  const projects = [
+    {
+      title: "AC Power Station",
+      description: "အိမ်သုံးလျှပ်စစ်ပစ္စည်းများအတွက် အသုံးပြုနိုင်သော စွမ်းအားမြင့် AC Power Station များ တည်ဆောက်ခြင်းနှင့် ရောင်းချခြင်း။",
+      tech: ["Inverter", "Battery Management"]
+    },
+    {
+      title: "DC Power Station",
+      description: "အိတ်ဆောင်အဖြစ် သယ်ဆောင်ရလွယ်ကူပြီး စွမ်းရည်မြင့်မားသော DC Power Solution များ ဖန်တီးခြင်း။",
+      tech: ["DC Circuits", "Power Efficiency"]
+    },
+    {
+      title: "Continuous R&D",
+      description: "ထုတ်ကုန်များကို ခေတ်မီနည်းပညာများဖြင့် အမြဲမပြတ် လေ့လာပြီး Version အသစ်များ အဆင့်မြှင့်တင်ခြင်း။",
+      tech: ["Upgrading", "Innovation"]
+    }
+  ];
+
+  // Improved scroll function to handle fixed navbar offset
+  const scrollToSection = (id) => {
+    setIsMobileMenuOpen(false); // Close mobile menu when clicking a link
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 80; // Height of your fixed header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+      setActiveSection(id);
+    }
+  };
+
+  const navLinks = ['Home', 'About', 'Skills', 'Projects', 'Contact'];
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-teal-500 selection:text-white">
+      
+      {/* Navigation Bar */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`}>
+        <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
+          <div 
+            onClick={() => scrollToSection('home')}
+            className="text-2xl font-bold text-teal-600 tracking-tighter cursor-pointer"
+          >
+            THN.
+          </div>
+          
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-8">
+            {navLinks.map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item.toLowerCase())}
+                className="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors uppercase tracking-wide cursor-pointer"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+            className="md:hidden text-slate-600 hover:text-teal-600 transition-colors"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-    </nav>
 
-    <!-- Mobile Drawer Menu -->
-    <div id="drawer-overlay" class="drawer-overlay"></div>
-    <div id="drawer-menu" class="drawer-menu flex flex-col items-center pt-16 space-y-8">
-        <a href="#about" class="text-white text-2xl font-semibold hover:text-[#4a90e2] transition-colors" onclick="toggleDrawer()">ကျွန်ုပ်အကြောင်း</a>
-        <a href="#skills" class="text-white text-2xl font-semibold hover:text-[#4a90e2] transition-colors" onclick="toggleDrawer()">စွမ်းရည်များ</a>
-        <a href="#contact" class="text-white text-2xl font-semibold hover:text-[#4a90e2] transition-colors" onclick="toggleDrawer()">ဆက်သွယ်ရန်</a>
-    </div>
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 shadow-lg py-4 px-6 flex flex-col space-y-4 animate-fade-in-down">
+            {navLinks.map((item) => (
+              <button
+                key={item}
+                onClick={() => scrollToSection(item.toLowerCase())}
+                className="text-left text-base font-medium text-slate-600 hover:text-teal-600 py-2 border-b border-slate-50 last:border-0"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
 
-    <!-- Home Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center p-8 text-center">
-        <div class="max-w-4xl mx-auto space-y-6 fade-in flex flex-col items-center">
-            <!-- Profile Image with new URL -->
-            <img 
-                src="https://i.ibb.co/wNjQbkrC/10d00b40-7f26-11f0-83c0-1fabb257df8c.jpg" 
-                alt="Pyae Phyoe Kyaw's profile picture"
-                class="w-48 h-48 md:w-64 md:h-64 rounded-full mb-6 object-cover shadow-2xl border-4 border-white transform transition-transform hover:scale-105"
-            >
-            <h1 class="text-5xl md:text-7xl font-bold leading-tight text-white">
-                Pyae Phyoe Kyaw
+      {/* Hero Section */}
+      <section id="home" className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-teal-50 to-slate-100 -z-10"></div>
+        {/* Decorative Circle */}
+        <div className="absolute top-20 right-10 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+        <div className="absolute bottom-20 left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+
+        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <div className="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium mb-2">
+              Hardware Engineer & Developer
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 leading-tight">
+              Hello, I'm <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
+                {personalInfo.name}
+              </span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-                လုပ်ငန်းအတွေ့အကြုံ ရယူချင်ပြီး အနာဂတ်အတွက် ရည်မှန်းချက်များစွာရှိနေတဲ့ လူငယ်တစ်ယောက်ပါ။
+            <p className="text-xl text-slate-600 max-w-lg leading-relaxed">
+              {personalInfo.role}
             </p>
-            <p class="text-sm md:text-base italic text-[#4a90e2] font-semibold pt-4">
-                "ကြီးစွာသောအိပ်မက်မက်ပါ၊ ကြိုးစားပါ။"
+            <p className="text-slate-500">
+              {personalInfo.bio}
             </p>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="min-h-screen flex items-center py-16 p-8">
-        <div class="container mx-auto max-w-4xl fade-in">
-            <h2 class="text-4xl font-bold section-title">ကျွန်ုပ်အကြောင်း</h2>
-            <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 space-y-6">
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <p class="text-lg">မွေးသက္ကရာဇ်: <span class="text-white font-medium">13.2.2006</span></p>
-                </div>
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                    </svg>
-                    <p class="text-lg">ပညာရေး: <span class="text-white font-medium">Grade 12 (အောင်မြင်ပြီးစီး)</span></p>
-                </div>
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
-                    <p class="text-lg">ဝါသနာများ: <span class="text-white font-medium">သစ်ပင်စိုက်တယ်၊ ကြောင်ချစ်တယ်</span></p>
-                </div>
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 018.382 5.044m-12.046 5.013c.045.549.09.855.131 1.054.12.529.28.988.47 1.346.33.633.725 1.135 1.192 1.503.467.368 1.018.683 1.638.932 1.487.62 3.193 1.025 5.068 1.025s3.581-.405 5.068-1.025c.62-.249 1.171-.564 1.638-.932.467-.368.862-.87 1.192-1.503.19-.358.35-.817.47-1.346.041-.199.086-.505.131-1.054" />
-                    </svg>
-                    <p class="text-lg">ရည်ရွယ်ချက်: <span class="text-white font-medium">လုပ်ငန်းအတွေ့အကြုံ ရယူချင်တယ်။ ကျောင်းတက်ဖို့ ပိုက်ဆံလိုချင်တယ်။</span></p>
-                </div>
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
+              <button 
+                onClick={() => scrollToSection('contact')}
+                className="px-8 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-all shadow-lg hover:shadow-teal-500/30 text-center cursor-pointer"
+              >
+                Contact Me
+              </button>
+              <button 
+                onClick={() => scrollToSection('projects')}
+                className="px-8 py-3 bg-white border border-slate-200 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition-all text-center cursor-pointer"
+              >
+                View Projects
+              </button>
             </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="min-h-screen flex items-center py-16 p-8">
-        <div class="container mx-auto max-w-4xl fade-in">
-            <h2 class="text-4xl font-bold section-title">စွမ်းရည်များ</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <!-- Skill 1: Reading -->
-                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 transform hover:scale-105 transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#4a90e2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.485 9.166 5 8 5c-3.355 0-6 2.5-6 6.253v2.364c0 2.21 2 4 4 4 1.25 0 2.222-.295 2.909-.728L12 18.253m0-13c1.168-.768 2.834-1.253 4-1.253 3.355 0 6 2.5 6 6.253v2.364c0 2.21-2 4-4 4-1.25 0-2.222-.295-2.909-.728L12 18.253m0-13c1.168-.768 2.834-1.253 4-1.253 3.355 0 6 2.5 6 6.253v2.364c0 2.21-2 4-4 4-1.25 0-2.222-.295-2.909-.728L12 18.253" />
-                    </svg>
-                    <p class="text-xl font-semibold">စာဖတ်</p>
-                </div>
-                <!-- Skill 2: Writing -->
-                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 transform hover:scale-105 transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#4a90e2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 013.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                    <p class="text-xl font-semibold">စာရေး</p>
-                </div>
-                <!-- Skill 3: Poetry -->
-                <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 flex flex-col items-center space-y-4 transform hover:scale-105 transition-transform duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-[#4a90e2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.5 10.5h-10m10 4h-10m10 4h-10M17.5 7.5L21 11" />
-                    </svg>
-                    <p class="text-xl font-semibold">ကဗျာတိုရေး</p>
-                </div>
+          </div>
+          
+          {/* Abstract Profile Image Placeholder - Updated Icon */}
+          <div className="relative hidden md:block">
+            <div className="w-full aspect-square rounded-2xl bg-gradient-to-tr from-slate-200 to-white shadow-2xl flex items-center justify-center border border-white/50 relative overflow-hidden group">
+               <Cpu size={120} className="text-slate-300 group-hover:text-teal-500 transition-colors duration-500" />
+               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="min-h-screen flex items-center py-16 p-8">
-        <div class="container mx-auto max-w-4xl fade-in">
-            <h2 class="text-4xl font-bold section-title">ဆက်သွယ်ရန်</h2>
-            <div class="bg-gray-800 bg-opacity-50 p-8 rounded-2xl shadow-lg border border-gray-700 space-y-6">
-                <!-- Phone (clickable) -->
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.134l-1.897.948a1 1 0 00-.598.982l.608 2.828a1 1 0 00.981.608l.948-1.897a1 1 0 011.134-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    <a href="tel:09883339646" class="text-lg text-white hover:underline transition-all">09883339646</a>
-                </div>
-                <!-- Email (clickable) -->
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-6 9h4a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2h4" />
-                    </svg>
-                    <a href="mailto:pyaephyokyaw202526@gmail.com" class="text-lg text-white hover:underline transition-all">pyaephyokyaw202526@gmail.com</a>
-                </div>
-                <!-- Telegram (clickable) -->
-                <div class="flex items-start md:items-center space-x-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#4a90e2] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10l-2 5L12 17l5-2-2-5-3-2z" />
-                    </svg>
-                    <a href="https://t.me/axerix07" target="_blank" rel="noopener noreferrer" class="text-lg text-white hover:underline transition-all">@axerix07</a>
-                </div>
+            {/* Floating Cards */}
+            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-slate-100 flex items-center space-x-3 animate-bounce-slow">
+              <div className="p-2 bg-teal-100 rounded-lg text-teal-600"><Zap size={20} /></div>
+              <div>
+                <p className="text-xs text-slate-500">Specialization</p>
+                <p className="font-bold text-slate-800">Power Systems</p>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+        
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+          <ChevronDown className="text-slate-400" />
+        </div>
+      </section>
 
-    <!-- Footer -->
-    <footer class="py-6 text-center text-gray-500 text-sm">
-        <p>Portfolio Website © 2025 Pyae Phyoe Kyaw</p>
-    </footer>
+      {/* About Section */}
+      <section id="about" className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">About Me</h2>
+            <div className="w-20 h-1 bg-teal-500 mx-auto rounded-full"></div>
+          </div>
 
-    <!-- JavaScript for fade-in effect and drawer menu -->
-    <script>
-        // Intersection Observer for fade-in effect on scroll
-        const sections = document.querySelectorAll('.fade-in');
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        sections.forEach(section => {
-            observer.observe(section);
-        });
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100">
+              <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
+                <User className="mr-2 text-teal-500" size={20} /> Personal Info
+              </h3>
+              <ul className="space-y-4">
+                <li className="flex justify-between border-b border-slate-200 pb-2">
+                  <span className="text-slate-500 flex items-center"><Calendar size={16} className="mr-2"/> Date of Birth</span>
+                  <span className="font-medium text-slate-800">{personalInfo.dob}</span>
+                </li>
+                <li className="flex justify-between border-b border-slate-200 pb-2">
+                  <span className="text-slate-500 flex items-center"><Book size={16} className="mr-2"/> Education</span>
+                  <span className="font-medium text-slate-800 text-right">{personalInfo.university}</span>
+                </li>
+                <li className="flex justify-between pt-2">
+                  <span className="text-slate-500 flex items-center"><Briefcase size={16} className="mr-2"/> Focus Area</span>
+                  <span className="font-medium text-slate-800">Hardware & Power</span>
+                </li>
+              </ul>
+            </div>
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+            <div className="space-y-6">
+              <h3 className="text-xl font-bold text-slate-800">My Journey</h3>
+              <p className="text-slate-600 leading-relaxed">
+                ကျွန်တော်သည် {personalInfo.university} တွင် Hardware မေဂျာကို အထူးပြုလေ့လာနေသူဖြစ်ပါသည်။ 
+                စာတွေ့သာမက လက်တွေ့နယ်ပယ်တွင်လည်း ကိုယ်တိုင် Power Station များ တည်ဆောက်ပြီး ဈေးကွက်သို့ ဖြန့်ဖြူးရောင်းချလျက်ရှိပါသည်။
+              </p>
+              <p className="text-slate-600 leading-relaxed">
+                ကျွန်တော့်၏ ခံယူချက်မှာ "အမြဲတမ်းလေ့လာနေရန်" ဖြစ်ပြီး၊ လက်ရှိ Project များကိုလည်း ခေတ်စနစ်နှင့်အညီ 
+                အမြဲမပြတ် အဆင့်မြှင့်တင် (Upgrade) ပြုလုပ်လေ့ရှိပါသည်။
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        // Drawer Menu functionality for mobile
-        const drawerButton = document.getElementById('drawer-button');
-        const drawerMenu = document.getElementById('drawer-menu');
-        const drawerOverlay = document.getElementById('drawer-overlay');
+      {/* Skills Section */}
+      <section id="skills" className="py-24 bg-slate-900 text-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+             <div>
+               <h2 className="text-3xl font-bold mb-4">Technical Skills</h2>
+               <p className="text-slate-400">ကျွန်တော် ကျွမ်းကျင်သော ဟာ့ဒ်ဝဲနည်းပညာများ</p>
+             </div>
+             <div className="hidden md:block w-1/3 h-px bg-slate-700 mb-4"></div>
+          </div>
 
-        function toggleDrawer() {
-            const isOpen = drawerMenu.classList.toggle('is-open');
-            drawerOverlay.classList.toggle('is-open', isOpen);
-        }
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {skills.map((skill) => (
+              <div key={skill.name} className="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-teal-500/50 transition-all group">
+                <div className="flex justify-between mb-2">
+                  <span className="font-bold text-slate-200 group-hover:text-teal-400 transition-colors">{skill.name}</span>
+                  <span className="text-slate-500 text-sm">{skill.level}%</span>
+                </div>
+                <div className="w-full bg-slate-700 rounded-full h-2">
+                  <div 
+                    className="bg-gradient-to-r from-teal-500 to-blue-500 h-2 rounded-full transition-all duration-1000" 
+                    style={{ width: `${skill.level}%` }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        drawerButton.addEventListener('click', toggleDrawer);
-        drawerOverlay.addEventListener('click', toggleDrawer);
-    </script>
-</body>
-</html>
+      {/* Projects Section */}
+      <section id="projects" className="py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Hardware Projects</h2>
+            <p className="text-slate-600">လက်တွေ့ တီထွင်ဖန်တီး ရောင်းချထားမှုများ</p>
+          </div>
 
-24
+          <div className="grid md:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <div key={index} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-slate-100 flex flex-col">
+                <div className="w-12 h-12 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center mb-6">
+                  <Battery size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{project.title}</h3>
+                <p className="text-slate-500 mb-6 flex-grow">{project.description}</p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tech.map((t) => (
+                    <span key={t} className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <a href="#" className="inline-flex items-center text-teal-600 font-medium hover:text-teal-700">
+                  View Details <ExternalLink size={16} className="ml-2" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 bg-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8">Get In Touch</h2>
+          <p className="text-slate-600 mb-12 max-w-xl mx-auto">
+            Power Station ဝယ်ယူလိုသူများအတွက်ဖြစ်စေ၊ နည်းပညာနှင့်ပတ်သက်ပြီး ဆွေးနွေးလိုလျှင်ဖြစ်စေ အောက်ပါလိပ်စာများမှတဆင့် ဆက်သွယ်နိုင်ပါသည်။
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
+            <a href={`mailto:${personalInfo.email}`} className="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-500 hover:bg-teal-50/50 transition-all group cursor-pointer">
+              <div className="w-16 h-16 bg-white shadow-sm rounded-full flex items-center justify-center mb-4 text-slate-400 group-hover:text-teal-600 group-hover:scale-110 transition-all">
+                <Mail size={32} />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-1">Email Me</h3>
+              <p className="text-teal-600">{personalInfo.email}</p>
+            </a>
+
+            <a href={`tel:${personalInfo.phone}`} className="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-500 hover:bg-teal-50/50 transition-all group cursor-pointer">
+              <div className="w-16 h-16 bg-white shadow-sm rounded-full flex items-center justify-center mb-4 text-slate-400 group-hover:text-teal-600 group-hover:scale-110 transition-all">
+                <Phone size={32} />
+              </div>
+              <h3 className="font-bold text-slate-900 mb-1">Call Me</h3>
+              <p className="text-teal-600">{personalInfo.phone}</p>
+            </a>
+          </div>
+
+          <div className="flex justify-center space-x-6">
+             {/* Social Placeholders */}
+             <a href="#" className="text-slate-400 hover:text-slate-900 transition-colors"><Github size={24}/></a>
+             <a href="#" className="text-slate-400 hover:text-blue-700 transition-colors"><Linkedin size={24}/></a>
+          </div>
+
+          <footer className="mt-20 pt-8 border-t border-slate-100 text-slate-400 text-sm">
+            <p>© {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
+          </footer>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Portfolio;
+
+
