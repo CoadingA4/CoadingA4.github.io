@@ -1,419 +1,231 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thet Hmue Naing - Hardware Engineer Portfolio</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+    <title>The Ultimate Bagan Guide</title>
     <style>
-        /* Custom animations for the Hero Section blobs */
-        @keyframes blob {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0, 0) scale(1); }
+        body{
+            margin: 5;
+            min-height: 100vh;
+            background: linear-gradient(135deg,#ffe998,#57370d);
+            font-family: Pyidaungsu;
+            text-align: justify;
         }
-        .animate-blob { animation: blob 7s infinite cubic-bezier(0.6, -0.28, 0.735, 0.045); }
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animate-bounce-slow { animation: bounce 4s infinite; }
+        footer{
+            background-color: rgb(22, 22, 22);
+            text-align: center;
+            color: #ffe998;
+            padding: 5px;
+        }
+        header{
+            background-color: #57370d;
+            color: #ffe998;
+            text-align: center;
+        }
+        .history{
+            align-items: center;
+            display: flex;
+            gap: 20px;
+            background-color: #fff4cd98;
+            padding: 25px;
+            border-radius: 15px;
+        }
+        .text{
+            text-align: justify;
+            flex-grow: 1;
+            color: #57370d;
+        }
+        .heimg{
+            width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 10px 5px 10px;
+            overflow: hidden;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            flex-shrink: 0;
+        }
+        .heimg:hover{
+            transform: scale(1.2);
+        }
+        .location{
+            text-align: justify;
+        }
+        .food{
+            border-radius: 15px;
+            background-color: #fff4cd98;
+            padding: 25px;
+            align-items: center;
+        }
+        .imgrow{
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+        .foodimg{ 
+            width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 10px 5px 10px;
+            overflow: hidden;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            flex-shrink: 0;
+        }
+        .foodimg:hover{
+            transform: scale(1.2);
+        }
+        .maskbg{
+            display: flex;
+            padding: 15px;
+            background-image: url(bagan2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            align-items: center;
+            border-radius: 15px;
+            justify-content: center;
 
-        /* Custom animation for mobile menu */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in-down { animation: fadeInDown 0.3s ease-out forwards; }
+        @keyframes fadeInUp{
+            from{
+                opacity: 0;
+                transform: translateY(80px);
+            }
+            to{
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .mask{
+            font-size: 150px;
+            font-weight: bold;
+            font-family: sans-serif;
+            background-clip: text;
+            color: transparent;
+            background-image: url(bagan7.jpg);
+            background-position: center;
+            background-size: cover;
+            filter: drop-shadow(10px 15px 10px black);
+            animation: fadeInUp 2.0s ease-out forwards;
+        } 
+        .pag{
+            align-items: center;
+            display: flex;
+            gap: 20px;
+            background-color: #fff4cd98;
+            border-radius: 15px;
+            padding: 25px;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-teal-500 selection:text-white">
-
-    <div id="root">
-        <!-- Application will be rendered here by JavaScript -->
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="text-center">
-                <i class="fas fa-spinner fa-spin text-teal-600 text-3xl"></i>
-                <p class="mt-4 text-slate-600">Loading Portfolio...</p>
-            </div>
+<body>
+    <header>
+        <h1>The Ultimate Bagan Guide</h1>
+    </header>
+    <main>
+        <div class="maskbg">
+            <h1 class="mask">BAGAN</h1>
         </div>
-    </div>
-
-    <script>
-        // Data Configuration
-        const personalInfo = {
-            name: "Thet Hmue Naing",
-            role: "Hardware Engineering Student & Power Systems Developer",
-            dob: "16 June, 2006",
-            university: "Computer University (Hardware Major)",
-            email: "thethmue853@gmail.com",
-            phone: "09-896177740",
-            bio: "Computer University တွင် Hardware မေဂျာဖြင့် တက်ရောက်နေပြီး Power Station များကို ကိုယ်တိုင်တီထွင်ဖန်တီး ရောင်းချနေသူ ဖြစ်ပါသည်။ လက်ရှိနည်းပညာများကို အမြဲလေ့လာပြီး Project များကို အချိန်နှင့်အမျှ အဆင့်မြှင့်တင်နေပါသည်။"
-        };
-
-        const skills = [
-            { name: "Power Electronics", level: 90 },
-            { name: "Circuit Design", level: 85 },
-            { name: "Microcontrollers (Arduino)", level: 80 },
-            { name: "Hardware Troubleshooting", level: 85 },
-            { name: "C++ / Embedded C", level: 70 },
-            { name: "PCB Design", level: 65 }
-        ];
-
-        const projects = [
-            {
-                title: "AC Power Station",
-                description: "အိမ်သုံးလျှပ်စစ်ပစ္စည်းများအတွက် အသုံးပြုနိုင်သော စွမ်းအားမြင့် AC Power Station များ တည်ဆောက်ခြင်းနှင့် ရောင်းချခြင်း။",
-                tech: ["Inverter", "Battery Management"]
-            },
-            {
-                title: "DC Power Station",
-                description: "အိတ်ဆောင်အဖြစ် သယ်ဆောင်ရလွယ်ကူပြီး စွမ်းရည်မြင့်မားသော DC Power Solution များ ဖန်တီးခြင်း။",
-                tech: ["DC Circuits", "Power Efficiency"]
-            },
-            {
-                title: "Continuous R&D",
-                description: "ထုတ်ကုန်များကို ခေတ်မီနည်းပညာများဖြင့် အမြဲမပြတ် လေ့လာပြီး Version အသစ်များ အဆင့်မြှင့်တင်ခြင်း။",
-                tech: ["Upgrading", "Innovation"]
-            }
-        ];
-
-        const navLinks = ['Home', 'About', 'Skills', 'Projects', 'Contact'];
-
-        // State variables (replacing React's useState)
-        let isScrolled = false;
-        let isMobileMenuOpen = false;
-
-        // Utility function to generate HTML for Skill progress bars
-        const renderSkills = () => {
-            return skills.map(skill => `
-                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-teal-500/50 transition-all group">
-                    <div class="flex justify-between mb-2">
-                        <span class="font-bold text-slate-200 group-hover:text-teal-400 transition-colors">${skill.name}</span>
-                        <span class="text-slate-500 text-sm">${skill.level}%</span>
-                    </div>
-                    <div class="w-full bg-slate-700 rounded-full h-2">
-                        <div 
-                            class="bg-gradient-to-r from-teal-500 to-blue-500 h-2 rounded-full transition-all duration-1000" 
-                            style="width: ${skill.level}%"
-                        ></div>
-                    </div>
+        <br>
+        <div class="history">
+            <div class="text">
+                <h3>သမိုင်းနောက်ခံ</h3>
+                <p>ပုဂံသည် မြန်မာနိုင်ငံ၏ ပထမဆုံးသော ဧကရာဇ်နိုင်ငံတော်ဖြစ်ခဲ့ရုံသာမက၊ ယနေ့ခေတ်တွင် ကမ္ဘာ့အမွေအနှစ်စာရင်းဝင် (UNESCO World Heritage Site) အဖြစ် ထင်ရှားကျော်ကြားသော နေရာတစ်ခုဖြစ်သည်။ ဧရာဝတီမြစ်ကမ်းဘေးရှိ စတုရန်းမိုင် (၄၀) ခန့်အတွင်း စေတီပုထိုးပေါင်း ထောင်ချီတည်ရှိနေခြင်းမှာ ကမ္ဘာပေါ်တွင် အခြားမည်သည့်နေရာတွင်မှ မရှိနိုင်သော ထူးခြားချက်ဖြစ်သည်။
+                </p>
+                <p>ပုဂံခေတ် (အေဒီ ၉ ရာစုမှ ၁၃ ရာစု) သည် မြန်မာ့ဗိသုကာ၊ စာပေနှင့် ဘာသာရေး အထွန်းကားဆုံးအချိန်ဖြစ်သည်။ အနော်ရထာမင်းကြီးလက်ထက်တွင် ထေရဝါဒဗုဒ္ဓဘာသာကို စတင်လက်ခံခဲ့ပြီးနောက်၊ မင်းနှင့်ပြည်သူများက ကုသိုလ်တော်အဖြစ် ဘုရားပေါင်းများစွာကို တည်ထားခဲ့ကြသည်။ ယနေ့တိုင် ပုဂံမြေတွင် ဘုရားပုထိုးပေါင်း (၃,၈၀၀) ကျော်ကို လေ့လာနိုင်သည်။
+                </p>
+            </div>
+            <img src="bagan1.jpg" alt="bagan" class="heimg">
+        </div>
+        
+        <div class="location">
+            <h3>ပုဂံရှိ နယ်မြေ (၃) ခုအကြောင်း</h3>
+            <p>ပုဂံကို အဓိကအားဖြင့် နယ်မြေ (၃) ပိုင်း ခွဲခြားထားပါသည်-</p>
+            <ul>
+                <li>ပုဂံဟောင်း (Old Bagan): ရှေးဟောင်းအဆောက်အအုံများ အများဆုံးတည်ရှိရာနေရာဖြစ်ပြီး၊ အဆင့်မြင့် ဟိုတယ်ကြီးများ ဤနေရာတွင် ရှိသည်။</li>
+                <li>ပုဂံသစ် (New Bagan): ဟိုတယ်နှင့် စားသောက်ဆိုင် အများအပြားရှိပြီး ဈေးနှုန်းမှာ ပုဂံဟောင်းထက် ပိုမိုသက်သာသည်။</li>
+                <li>ညောင်ဦး (Nyaung-U): ကားဂိတ်၊ လေဆိပ်နှင့် အနီးဆုံးဖြစ်ပြီး ဒေသခံဈေးများနှင့် Backpackers များအတွက် သင့်တော်သော တည်းခိုခန်းများ ပေါများသည်။</li>
+            </ul>
+        </div>
+        <div class="ttr">
+            <div class="history">
+                <img src="shwe.jpg" alt="shwe" class="heimg">
+                <div class="text">
+                    <p>ရွှေစည်းခုံစေတီ (Shwezigon Pagoda): ပုဂံစေတီများ၏ မူလစံနမူနာဖြစ်သည်။ ရွှေရောင်တဝင်းဝင်းဖြင့် ဖူးမြော်နိုင်ပြီး မြန်မာ့ရိုးရာ နတ် (၃၇) မင်း နတ်နန်းလည်း တည်ရှိသည်။</p>  
+                </div>                
+            </div><br>
+            <div class="history">
+                <div class="text">
+                    <p>အာနန္ဒာဘုရား (Ananda Temple): "အာနန္ဒာမှာ အနု" ဟု ကျော်ကြားသည်။ ဂရိကူးရူး (Greek-cross) ပုံစံ ဗိသုကာလက်ရာဖြစ်ပြီး မတ်ရပ်ကိုယ်တော်ကြီး (၄) ဆူ၏ မျက်နှာတော်မှာ ကြည့်ရှုသည့်နေရာပေါ်မူတည်၍ အပြုံးပြောင်းလဲနေသယောင် ထူးခြားလှသည်။
+                    </p>
                 </div>
-            `).join('');
-        };
-
-        // Utility function to generate HTML for Project cards
-        const renderProjects = () => {
-            return projects.map((project, index) => `
-                <div key="${index}" class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-slate-100 flex flex-col">
-                    <div class="w-12 h-12 bg-teal-100 text-teal-600 rounded-lg flex items-center justify-center mb-6">
-                        <i class="fas fa-battery-full text-2xl"></i> <!-- Battery Icon -->
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">${project.title}</h3>
-                    <p class="text-slate-500 mb-6 flex-grow">${project.description}</p>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        ${project.tech.map(t => `
-                            <span class="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-full">${t}</span>
-                        `).join('')}
-                    </div>
-                    <a href="#" class="inline-flex items-center text-teal-600 font-medium hover:text-teal-700">
-                        View Details <i class="fas fa-external-link-alt ml-2 text-sm"></i>
-                    </a>
+                <img src="ana.jpg" alt="ana" class="heimg">                
+            </div><br>
+            <div class="history">
+                <img src="that.jpg" alt="that" class="heimg">
+                <div class="text">
+                    <p>သဗ္ဗညုဘုရား (Thatbyinnyu Temple): "သဗ္ဗညုမှာ အမြင့်" ဟုဆိုသည့်အတိုင်း ပုဂံတွင် အမြင့်ဆုံး (၂၀၁ ပေ) ဖြစ်သည်။                        
+                    </p>
+                </div>   
+            </div><br>
+            <div class="history">
+                <div class="text">
+                    <p>ဓမ္မရံကြီးဘုရား (Dhammayangyi Temple): အုတ်စီလက်ရာ အကောင်းဆုံးဖြစ်ပြီး ထုထည်အကြီးမားဆုံးဖြစ်သည်။ ဘုရား၏ သမိုင်းကြောင်းမှာလည်း စိတ်ဝင်စားစရာ ကောင်းလှသည်။
+                    </p>
                 </div>
-            `).join('');
-        };
-
-        // Renders the entire application UI based on current state (isScrolled, isMobileMenuOpen)
-        const renderApp = () => {
-            const root = document.getElementById('root');
-            const navClasses = `fixed w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`;
-            
-            // Build the main HTML string
-            const htmlContent = `
-                <!-- Navigation Bar -->
-                <nav id="navbar" class="${navClasses}">
-                    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-                        <div onclick="scrollToSection('home')" class="text-2xl font-bold text-teal-600 tracking-tighter cursor-pointer">
-                            THN.
-                        </div>
-                        
-                        <!-- Desktop Menu -->
-                        <div class="hidden md:flex space-x-8">
-                            ${navLinks.map(item => `
-                                <button
-                                    onclick="scrollToSection('${item.toLowerCase()}')"
-                                    class="text-sm font-medium text-slate-600 hover:text-teal-600 transition-colors uppercase tracking-wide cursor-pointer"
-                                >
-                                    ${item}
-                                </button>
-                            `).join('')}
-                        </div>
-
-                        <!-- Mobile Menu Toggle -->
-                        <button 
-                            id="mobile-menu-toggle"
-                            class="md:hidden text-slate-600 hover:text-teal-600 transition-colors"
-                        >
-                            <i class="fas ${isMobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl"></i>
-                        </button>
-                    </div>
-
-                    <!-- Mobile Menu Dropdown -->
-                    ${isMobileMenuOpen ? `
-                        <div class="md:hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 shadow-lg py-4 px-6 flex flex-col space-y-4 animate-fade-in-down">
-                            ${navLinks.map(item => `
-                                <button
-                                    onclick="scrollToSection('${item.toLowerCase()}')"
-                                    class="text-left text-base font-medium text-slate-600 hover:text-teal-600 py-2 border-b border-slate-50 last:border-0"
-                                >
-                                    ${item}
-                                </button>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-                </nav>
-
-                <!-- Hero Section -->
-                <section id="home" class="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20">
-                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-teal-50 to-slate-100 -z-10"></div>
-                    <!-- Decorative Circle -->
-                    <div class="absolute top-20 right-10 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                    <div class="absolute bottom-20 left-10 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-
-                    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-                        <div class="space-y-6">
-                            <div class="inline-block px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium mb-2">
-                                Hardware Engineer & Developer
-                            </div>
-                            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 leading-tight">
-                                Hello, I'm <br />
-                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-600">
-                                    ${personalInfo.name}
-                                </span>
-                            </h1>
-                            <p class="text-xl text-slate-600 max-w-lg leading-relaxed">
-                                ${personalInfo.role}
-                            </p>
-                            <p class="text-slate-500">
-                                ${personalInfo.bio}
-                            </p>
-                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
-                                <button 
-                                    onclick="scrollToSection('contact')"
-                                    class="px-8 py-3 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-all shadow-lg hover:shadow-teal-500/30 text-center cursor-pointer"
-                                >
-                                    Contact Me
-                                </button>
-                                <button 
-                                    onclick="scrollToSection('projects')"
-                                    class="px-8 py-3 bg-white border border-slate-200 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition-all text-center cursor-pointer"
-                                >
-                                    View Projects
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Abstract Profile Image Placeholder - Updated Icon -->
-                        <div class="relative hidden md:block">
-                            <div class="w-full aspect-square rounded-2xl bg-gradient-to-tr from-slate-200 to-white shadow-2xl flex items-center justify-center border border-white/50 relative overflow-hidden group">
-                                <i class="fas fa-microchip text-slate-300 text-[120px] group-hover:text-teal-500 transition-colors duration-500"></i>
-                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            </div>
-                            <!-- Floating Cards -->
-                            <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-slate-100 flex items-center space-x-3 animate-bounce-slow">
-                                <div class="p-2 bg-teal-100 rounded-lg text-teal-600"><i class="fas fa-bolt text-xl"></i></div>
-                                <div>
-                                    <p class="text-xs text-slate-500">Specialization</p>
-                                    <p class="font-bold text-slate-800">Power Systems</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
-                        <i class="fas fa-chevron-down text-slate-400"></i>
-                    </div>
-                </section>
-
-                <!-- About Section -->
-                <section id="about" class="py-24 bg-white">
-                    <div class="max-w-4xl mx-auto px-6">
-                        <div class="text-center mb-16">
-                            <h2 class="text-3xl font-bold text-slate-900 mb-4">About Me</h2>
-                            <div class="w-20 h-1 bg-teal-500 mx-auto rounded-full"></div>
-                        </div>
-
-                        <div class="grid md:grid-cols-2 gap-12">
-                            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-100">
-                                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                                    <i class="fas fa-user mr-2 text-teal-500 text-lg"></i> Personal Info
-                                </h3>
-                                <ul class="space-y-4">
-                                    <li class="flex justify-between border-b border-slate-200 pb-2">
-                                        <span class="text-slate-500 flex items-center"><i class="fas fa-calendar-alt mr-2 text-sm"></i> Date of Birth</span>
-                                        <span class="font-medium text-slate-800">${personalInfo.dob}</span>
-                                    </li>
-                                    <li class="flex justify-between border-b border-slate-200 pb-2">
-                                        <span class="text-slate-500 flex items-center"><i class="fas fa-book mr-2 text-sm"></i> Education</span>
-                                        <span class="font-medium text-slate-800 text-right">${personalInfo.university}</span>
-                                    </li>
-                                    <li class="flex justify-between pt-2">
-                                        <span class="text-slate-500 flex items-center"><i class="fas fa-briefcase mr-2 text-sm"></i> Focus Area</span>
-                                        <span class="font-medium text-slate-800">Hardware & Power</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="space-y-6">
-                                <h3 class="text-xl font-bold text-slate-800">My Journey</h3>
-                                <p class="text-slate-600 leading-relaxed">
-                                    ${personalInfo.university} တွင် Hardware မေဂျာကို အထူးပြုလေ့လာနေသူဖြစ်ပါသည်။ 
-                                    စာတွေ့သာမက လက်တွေ့နယ်ပယ်တွင်လည်း ကိုယ်တိုင် Power Station များ တည်ဆောက်ပြီး ဈေးကွက်သို့ ဖြန့်ဖြူးရောင်းချလျက်ရှိပါသည်။
-                                </p>
-                                <p class="text-slate-600 leading-relaxed">
-                                    ကျွန်တော့်၏ ခံယူချက်မှာ "အမြဲတမ်းလေ့လာနေရန်" ဖြစ်ပြီး၊ လက်ရှိ Project များကိုလည်း ခေတ်စနစ်နှင့်အညီ 
-                                    အမြဲမပြတ် အဆင့်မြှင့်တင် (Upgrade) ပြုလုပ်လေ့ရှိပါသည်။
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Skills Section -->
-                <section id="skills" class="py-24 bg-slate-900 text-white">
-                    <div class="max-w-6xl mx-auto px-6">
-                        <div class="flex flex-col md:flex-row justify-between items-end mb-16">
-                            <div>
-                                <h2 class="text-3xl font-bold mb-4">Technical Skills</h2>
-                                <p class="text-slate-400">ကျွန်တော် ကျွမ်းကျင်သော ဟာ့ဒ်ဝဲနည်းပညာများ</p>
-                            </div>
-                            <div class="hidden md:block w-1/3 h-px bg-slate-700 mb-4"></div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            ${renderSkills()}
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Projects Section -->
-                <section id="projects" class="py-24 bg-slate-50">
-                    <div class="max-w-6xl mx-auto px-6">
-                        <div class="text-center mb-16">
-                            <h2 class="text-3xl font-bold text-slate-900 mb-4">Hardware Projects</h2>
-                            <p class="text-slate-600">လက်တွေ့ တီထွင်ဖန်တီး ရောင်းချထားမှုများ</p>
-                        </div>
-
-                        <div class="grid md:grid-cols-3 gap-8">
-                            ${renderProjects()}
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Contact Section -->
-                <section id="contact" class="py-24 bg-white">
-                    <div class="max-w-4xl mx-auto px-6 text-center">
-                        <h2 class="text-3xl font-bold text-slate-900 mb-8">Get In Touch</h2>
-                        <p class="text-slate-600 mb-12 max-w-xl mx-auto">
-                            Power Station ဝယ်ယူလိုသူများအတွက်ဖြစ်စေ၊ နည်းပညာနှင့်ပတ်သက်ပြီး ဆွေးနွေးလိုလျှင်ဖြစ်စေ အောက်ပါလိပ်စာများမှတဆင့် ဆက်သွယ်နိုင်ပါသည်။
-                        </p>
-
-                        <div class="grid md:grid-cols-2 gap-6 mb-12">
-                            <a href="mailto:${personalInfo.email}" class="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-500 hover:bg-teal-50/50 transition-all group cursor-pointer">
-                                <div class="w-16 h-16 bg-white shadow-sm rounded-full flex items-center justify-center mb-4 text-slate-400 group-hover:text-teal-600 group-hover:scale-110 transition-all">
-                                    <i class="fas fa-envelope text-3xl"></i>
-                                </div>
-                                <h3 class="font-bold text-slate-900 mb-1">Email Me</h3>
-                                <p class="text-teal-600">${personalInfo.email}</p>
-                            </a>
-
-                            <a href="tel:${personalInfo.phone}" class="flex flex-col items-center justify-center p-8 bg-slate-50 rounded-2xl border border-slate-100 hover:border-teal-500 hover:bg-teal-50/50 transition-all group cursor-pointer">
-                                <div class="w-16 h-16 bg-white shadow-sm rounded-full flex items-center justify-center mb-4 text-slate-400 group-hover:text-teal-600 group-hover:scale-110 transition-all">
-                                    <i class="fas fa-phone text-3xl"></i>
-                                </div>
-                                <h3 class="font-bold text-slate-900 mb-1">Call Me</h3>
-                                <p class="text-teal-600">${personalInfo.phone}</p>
-                            </a>
-                        </div>
-
-                        <div class="flex justify-center space-x-6">
-                            <!-- Social Placeholders -->
-                            <a href="#" class="text-slate-400 hover:text-slate-900 transition-colors"><i class="fab fa-github text-2xl"></i></a>
-                            <a href="#" class="text-slate-400 hover:text-blue-700 transition-colors"><i class="fab fa-linkedin text-2xl"></i></a>
-                        </div>
-
-                        <footer class="mt-20 pt-8 border-t border-slate-100 text-slate-400 text-sm">
-                            <p>© ${new Date().getFullYear()} ${personalInfo.name}. All rights reserved.</p>
-                        </footer>
-                    </div>
-                </section>
-            `;
-            root.innerHTML = htmlContent;
-            
-            // Re-attach event listeners after rendering (for mobile menu)
-            attachEventListeners();
-        };
-
-        // Smooth scroll function
-        const scrollToSection = (id) => {
-            isMobileMenuOpen = false; // Close menu on click
-            const element = document.getElementById(id);
-            if (element) {
-                const headerOffset = 80;
-                const elementPosition = element.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
-            }
-            // Re-render to close the mobile menu if open
-            renderApp();
-        };
-        window.scrollToSection = scrollToSection; // Make it globally accessible for inline onclicks
-
-        // Handle scrolling effect for navbar
-        const handleScroll = () => {
-            const currentScrolled = window.scrollY > 50;
-            if (isScrolled !== currentScrolled) {
-                isScrolled = currentScrolled;
-                // Only update navbar class if scroll state changes
-                const navbar = document.getElementById('navbar');
-                if (navbar) {
-                    const navClasses = `fixed w-full z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'}`;
-                    navbar.className = navClasses;
-                }
-            }
-        };
-
-        // Handle mobile menu toggle
-        const toggleMobileMenu = () => {
-            isMobileMenuOpen = !isMobileMenuOpen;
-            renderApp(); // Re-render the whole app to show/hide the menu
-        };
-
-        const attachEventListeners = () => {
-            // Remove existing listeners to prevent duplication
-            window.removeEventListener('scroll', handleScroll);
-            
-            // Attach scroll listener
-            window.addEventListener('scroll', handleScroll);
-
-            // Attach mobile menu toggle listener
-            const toggleButton = document.getElementById('mobile-menu-toggle');
-            if (toggleButton) {
-                toggleButton.onclick = toggleMobileMenu;
-            }
-        };
-
-        // Initialize the application on load
-        window.onload = () => {
-            renderApp();
-        };
-    </script>
+                <img src="dhamma.jpg" alt="dhamma" class="heimg">                
+            </div><br>
+            <div class="history">
+                <img src="htilo.jpg" alt="htilo" class="heimg">
+                <div class="text">
+                    <p>ထီးလိုမင်းလိုဘုရား (Htilominlo Temple): အင်္ဂတေပန်းတော့လက်ရာများ အလွန်လှပပြီး အနုစိတ်လှသည်။
+                    </p>
+                </div>                
+            </div><br>
+        </div>
+        <div>
+            <h3>ပုဂံတွင် လုပ်ဆောင်သင့်သည့် အတွေ့အကြုံများ</h3>
+            <ul>
+                <li>Hot Air Balloon စီးခြင်းကို အောက်တိုဘာလမှ မတ်လအထိသာ ရရှိနိုင်ပြီး နံနက်အာရုဏ်တက်ချိန်တွင် ပုဂံတစ်ခွင်ကို အပေါ်စီးမှ မြင်တွေ့ရခြင်းမှာ ဘဝတွင် မမေ့နိုင်စရာ အတွေ့အကြုံဖြစ်မည်။</li>
+                <li>E-Bike ဖြင့် လည်ပတ်ခြင်းသည် ဆူညံသံကင်းပြီး သဘာဝပတ်ဝန်းကျင်ကို မထိခိုက်သည့် လျှပ်စစ်စက်ဘီးများမှာ ပုဂံ၏ လမ်းကျဉ်းလေးများသို့ သွားလာရန် အကောင်းဆုံးဖြစ်သည်။</li>
+                <li>နေဝင်ချိန်ကြည့်ခြင်းကို ယခင်က ဘုရားပေါ်တက်ကြည့်ခွင့်ပြုခဲ့သော်လည်း ယခုအခါ ရှေးဟောင်းအမွေအနှစ် ထိန်းသိမ်းရန်အတွက် သတ်မှတ်ထားသော တောင်ကုန်းငယ်များ (Viewpoints) ပေါ်မှသာ ကြည့်ရှုရသည်။</li>
+                <li>မြန်မာ့ရိုးရာ ယွန်းထည်ပစ္စည်းများ (Lacquerware) ပြုလုပ်ပုံ အဆင့်ဆင့်ကို လေ့လာပြီး အမှတ်တရလက်ဆောင်များ ဝယ်ယူနိုင်သည်။</li>
+            </ul>
+        </div>
+        <div class="food">
+            <div class="text">
+                <h3>စားသောက်ရေးနှင့် ဒေသစာ</h3>
+                <ul>
+                   <li>ပုဂံတွင် ဟင်းပွဲအစုံအလင်ပါဝင်သော မြန်မာထမင်းဝိုင်းကို စားသုံးသင့်သည်။ မြန်မာ့မုန့်ဟင်းခါးနှင့် လက်ဖတ်သုပ်များသည်လဲ လူကြိုက်များသည်။</li>
+                   <li>နာမည်ကြီးဆိုင်များကတော့ ပုဂံမင်းသား (Bagan Prince)၊ နှင့် ဧရာဝတီမြစ်ကမ်းဘေးရှိ Sunset view ဆိုင်များမှာ လူကြိုက်များသည်။</li>
+                   <li>ညောင်ဦးတွင် စားသောက်ကုန်လမ်း (Restaurant Row)၊ နိုင်ငံတကာ အစားအစာ (Pizza, Burger, Pasta) များ ရရှိနိုင်သည်။</li>
+                </ul>
+            </div>
+            <div class="imgrow">
+                <img src="mmf2.jpg" alt="food" class="foodimg">
+                <img src="mmfood1.jpg" alt="food2" class="foodimg">
+            </div>            
+        </div>
+        <div class="travel">
+            <h3>သွားလာရေး လမ်းညွှန်</h3>
+            <ul>
+                <li>ရန်ကုန်မှ လေယာဉ် (၁ နာရီ)၊ အမြန်ကား (၉ နာရီခန့်) ဖြင့် သွားနိုင်သည်။ မန္တလေးမှ သွားလျှင် ဧရာဝတီမြစ်အတိုင်း သင်္ဘောဖြင့် (တစ်နေကုန်) သွားခြင်းမှာ အလွန်သာယာပါသည်။
+                </li>
+                <li>
+                    ဘုရားနယ်မြေဖြစ်၍ အင်္ကျီလက်ပြတ်၊ ဘောင်းဘီတို၊ စကတ်တိုများ မဝတ်သင့်ပါ။ လုံချည်ဝတ်ခြင်းမှာ အသင့်တော်ဆုံးဖြစ်ပြီး နေပူဒဏ်အတွက် ထီး သို့မဟုတ် ဦးထုပ် ဆောင်ထားပါ။
+                </li>
+                <li>
+                    နေပူရှိန်ပြင်းထန်သဖြင့် ရေများများသောက်ရန်နှင့် Sunscreen လိမ်းရန် လိုအပ်သည်။
+                </li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 The Ultimate Bagan Guide</p>
+        <p>Project by Thet &hearts;</p>
+    </footer>
 </body>
 </html>
-
