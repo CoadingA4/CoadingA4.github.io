@@ -1,0 +1,417 @@
+         body{
+            margin: 0;
+            font-family: 'Pyidaungsu','Times New Roman';
+            min-height: 100vh;/*နောက်ခံကို အပြည့်ဖြစ်နေစေရန်*/
+            background: linear-gradient(135deg, rgb(243, 235, 130),rgb(143, 129, 1));
+        }
+        /*scroll ပြေပစ်စေရန်*/
+        html{
+            scroll-behavior: smooth;
+            scroll-padding-top: 5rem;/*navgation နဲ့ section တွေကို မထပ်စေရန်*/
+        }         
+        /*Navgation နှင့် Menu barအတွက်*/                                                      
+        .navbar{
+            background-color: rgba(187, 169, 5, 0.952);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;/*navgation box ကို scroll ဆွဲရင်အပေါ်မှာမြဲတည်ရှိနေစေရန်*/
+            top: 0;
+            left: 0;
+            width: auto;       
+            z-index: 1000;/*navgation element ကိုကျန်တဲ့ element တွေရဲ့အပေါ်ဆုံးအလွှာမှာရှိနေစေရန်*/
+            padding: 0 10px;
+        }
+        /*ခေါင်းစဉ်အတွက်*/
+        .title{
+            color: rgb(43, 44, 1);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        /*list style ဖျောက်ရန်*/
+        .navbar ul{
+            list-style-type: none;
+            display: flex;
+            margin: 2px;
+            padding: 0;
+        }
+        /*link အောက်မျဉ်းဖြုတ်ရန်*/
+        .navbar li a{
+            text-decoration: none;
+            display: block;
+            color: black;
+            padding: 20px;
+            font-size: larger;
+        }
+        /*link တွေကို mouse တင်ရန်background color ပြောင်းစေရန်*/
+        .navbar li a:hover{
+            background-color: rgba(255, 255, 255, 0.685);
+        }
+        /*Home section အတွက် ပြင်ဆင်မှုများ*/
+        .welcome{
+            width: 100%;
+            height: 545px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            box-shadow: 10px 10px 30px rgb(0, 0, 0, 0.2);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-image: linear-gradient(to right, rgba(238, 255, 2, 0.384), rgba(212, 253, 99, 0.39)), url(bag4.png);
+        }
+        .weltext{
+            padding-left: 30px;
+            font-weight: bold;
+            text-shadow: 10px 20px 30px rgb(0, 0, 0, 0.5);
+            flex-grow: 1;
+        }
+        .weltext h1{
+            font-size: 40px;
+            color: rgb(61, 61, 2);
+        }
+        .weltext p{
+            font-size: large;
+            color: rgb(0, 0, 0);
+        }
+        /*Home section ရှိ button များကိုပြင်ဆင်ခြင်း*/
+        .button{
+            display: flex;
+            gap: 10px;
+        }
+        .button a{
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: rgb(36, 35, 1);
+        }
+        .b1{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 30px;
+            padding: 10px;
+            background-color: rgb(207, 204, 15);
+            border-radius: 10px;
+            box-shadow: 10px 10px 20px rgb(0, 0, 0, 0.2);
+        }
+        .b2{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 26px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid rgb(207, 204, 15);
+            box-shadow: 10px 10px 20px rgb(0, 0, 0, 0.2);
+        }
+        /*home section ရှိ image ကို အဝိုင်းပုံပေါ်ရန် နှင့် transation ထည့်သွင်းခြင်း*/
+        .welimg{
+            margin: 10px;
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            overflow: hidden;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease;
+            flex-shrink: 0;
+        }
+        .welimg:hover{
+            transform: rotate(60deg);
+        }
+        /*footer ထည့်သွင်းခြင်း*/
+        footer{
+            background-color: rgb(133, 114, 6);
+            text-align: center;
+            font-size: large;
+            font-weight: bold;
+            padding: 10px;
+        }
+        /*ပုံလေးပုံကို ပြင်ဆင်ခြင်း*/
+        .box{
+            margin: 10px;
+            padding: 20px;
+            gap: 5px;
+            display: flex;
+            border-radius: 20px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.397);
+            width: auto;
+            height: 400px;
+            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+        }
+        .boxcard{
+            height: 380px;
+            width: 50px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.546);
+            flex: 0.5;
+            overflow: hidden;
+            transition: all 2s ease;
+        }
+        .imgcard{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+        .boxcard:hover {
+            flex: 1;
+        }
+        /*စာနှစ်ခုကြား ပုံထည့်ထားသော div အတွက်ပြင်ဆင်ခြင်း*/
+        .aboutext{
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+            padding: 15px;
+            overflow: hidden;
+            align-items: center;
+            width: auto;
+            gap: 20px;
+        }
+        .text1 p{
+            font-size: 16px;
+            font-weight: bold;
+            flex-grow: 1;
+            text-align: justify;
+        }
+        .textimg{
+            width: 360px;
+            height: 360px;
+            flex-shrink: 0;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 20px #0000008c);/* ပုံထဲက item ကိုအရိပ်ထည့်ရန်*/
+            transition: transform 0.5s ease;
+        }
+        .textimg:hover{
+            transform: scale(1.1);
+        }
+        /*blog ရဲ့အစ အပေါ်ဆုံး ပုံလေးပုံအတွက်*/
+        .aboutbox{
+            display: flex;
+            margin: 10px;
+            padding: 10px;
+            justify-content: space-evenly;
+            align-items: center;
+            width: auto;
+            gap: 20px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.411);
+        }
+        .backimg1{
+            width: 200px;
+            height: 300px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px;
+            background-image: url(img3.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding: 10px;
+        }
+        .textback{
+            width: 100%;
+            height: auto;
+            margin-bottom: 5px;
+            border: 1px solid #ffffff67;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(3px);/*စာသား box ကို glass effect ထည့်ရန်*/
+            opacity: 1;
+            transition: transform 0.5s ease;
+            overflow: hidden;
+            text-align: center;
+        }
+        .textback:hover{
+            transform: scale(1.2);
+        }
+        .textback p{
+            font-size: larger;
+            font-weight: bold;
+        }
+        .backimg2{ 
+            width: 200px;
+            height: 300px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px;
+            background-image: url(mmfood1.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding: 10px;
+        }
+        .backimg3{ 
+            width: 200px;
+            height: 300px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px;
+            background-image: url(img4.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding: 10px;
+        }
+        .backimg4{ 
+            width: 200px;
+            height: 300px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px;
+            background-image: url(img5.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;/* image ကို box နဲ့ အကိုက်ဖြစ်နေစေရန်*/
+            background-position: center;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding: 10px;
+        }
+        /*Contact box အတွက်ပြင်ဆင်ခြင်း*/
+        .contbox{
+            margin: 10px;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.432);
+            text-align: center;
+            background-image: linear-gradient(to right, rgba(49, 48, 1, 0.445), rgba(255, 255, 255, 0.164)), url(bag3.png);/*image အပေါ်တွင် အရောင်ပြေးလေးပေါ်စေရန်*/
+            
+        }
+        .conthead{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .grouplogo{
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        .contbox ul li{
+            list-style: none;
+        }
+        .contbox ul li a{
+            text-decoration: none;
+        }
+        .email{
+            color: rgb(0, 0, 0);
+            font-size: larger;
+            font-weight: bold;
+        }
+        /*blog section ရဲ့ အဓိက အစိတ်အပိုင်းများကိုပြင်ဆင်ခြင်း*/
+        .endtextbox{ 
+            align-items: center;
+            display: flex;
+            gap: 20px;
+            padding: 25px;
+            margin: 10px;
+            background: linear-gradient(to right, rgb(187, 169, 5, 0.952), rgba(204, 202, 93, 0.788)) ;
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.377);
+        }
+        .endtextbox2{
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+            margin: 10px;
+        }
+        .endtext{ 
+            text-align: justify;
+            flex-grow: 1;/*box ရဲ့နေရာလွတ်တွေအားလုံးကို ယူစေရန်*/
+            font-size: large;
+            color: #311c00;
+        }
+        .endtext2{
+            text-align: justify;
+            flex-grow: 1;
+            font-size: large;
+            color: #252000;
+        }
+        .endimg{
+            width: 300px;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 10px 5px 10px;
+            overflow: hidden;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            flex-shrink: 0;/*ဘေးကစာသားကို မဖုံးစေရန်(ဘယ်တော့မှပုံကို မကျုံ့သွားစေရန်၊ ပုံစံမပျက်စေရန်)*/
+        }
+        .endimg:hover{
+            transform: scale(1.1);
+        }
+        /*about section မှာနောက်ခံပုံထည့်ခြင်း*/
+        .context{
+            margin: 0px;
+            width: auto;
+            display: flex;
+            background-image: url(bag2.png);
+            background-repeat: no-repeat;/*ပုံအများကြီးမထပ်စေရန်*/
+            background-position: center;/*ပုံကို အလယ်တည့်တည့်ပေါ်စေရန်*/
+            background-size: contain;/*ပုံအရွယ်အစားကို box ရဲ့အတွင်းမှာကျနေစေရန်*/
+            align-items: center;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+        .text2{
+            background-color: rgba(255, 255, 255, 0.116);
+            backdrop-filter: blur(3px);/*glass effect ဖြစ်အောင် blur ထည့်ခြင်း*/
+            width: 300px;
+            height: 500px;
+            text-align: center;
+            padding: 10px;
+            border: 1 solid rgb(230, 218, 218);
+            border-radius: 15px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.534);
+            transition: transform 0.5s ease;/*box ကို mouse တင်ရင် အပေါ်ကြွလာအောင် transition ထည့်ခြင်း*/
+        }
+        .text2:hover{
+            transform: scale(1.1);/*နဂိုမူလအရွယ်ထက် ၁.၁ဆကြီးလာစေရန်*/
+        }
+        /*blog section ရဲ့အောက်ဆုံးအပိုင်း*/
+        .undertext{
+            border-radius: 20px;/*box ရဲ့ဘေးဘောင်ကို ကွေးရန်*/
+            box-shadow: 10px 10px 20px rgb(0, 0, 0, 0.2);/*box ကို shadow ထည့်ခြင်း*/
+            background: linear-gradient(to right, rgb(187, 169, 5, 0.952), rgba(204, 202, 93, 0.788));/*အရောင်ပြေးလေးပေါ်ရန် အရောင်စပ်သုံးခြင်း*/
+            margin: 15px;
+            padding: 10px;
+            text-align: center;
+        }
+        /*image တွေကို ဘေးတိုက်ပေါ်ရန် box ကိုပြင်ဆင်ခြင်း*/
+        .underimg{
+            display: flex;/*element တွေကိုဘေးတိုက်ပေါ်ရန်သုံးခြင်း*/
+            align-items: center;/*အပေါ်အောက်ညှိရန်သုံး*/
+            justify-content: space-evenly;/*ဘေးတိုက် ညှိရန်သုံး*/
+            gap: 20px;/*element နှစ်ခုကြားအကွာအဝေး*/
+            padding: 15px;/*box နှင့် element ကြားအကွာအဝေး*/
+        }
+        .undimg{
+            width: 200px;
+            height: 310px;
+            border-radius: 150px;
+        }
+          /*youtube အတွက်*/
+       .youtube{
+            margin: 10px;
+            padding: 25px;
+            width: auto;
+            text-align: center;
+       }
+       .youtube p{
+            color: #252000;
+            font-size: large;
+            font-weight: bold;
+       }
