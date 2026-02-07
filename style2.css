@@ -127,7 +127,7 @@
         footer{
             background-color: rgb(133, 114, 6);
             text-align: center;
-            font-size: large;
+            font-size: 16px;
             font-weight: bold;
             padding: 10px;
         }
@@ -160,7 +160,7 @@
             object-fit: cover;
         }
         .boxcard:hover {
-            flex: 1;
+            flex: 1;/*image boxတွေကိုမျက်နှာပြင်အကျယ်ပေါ်မှုတည်ပြီးညီညီညာညာရှိနေစေဖို့။ flex-grow,flex-shrink,flex-basis သုံးခုကိုပေါင်းသုံးတာပါ။*/
         }
         /*စာနှစ်ခုကြား ပုံထည့်ထားသော div အတွက်ပြင်ဆင်ခြင်း*/
         .aboutext{
@@ -307,7 +307,7 @@
         }
         .email{
             color: rgb(0, 0, 0);
-            font-size: larger;
+            font-size: 18px;
             font-weight: bold;
         }
         /*blog section ရဲ့ အဓိက အစိတ်အပိုင်းများကိုပြင်ဆင်ခြင်း*/
@@ -414,4 +414,50 @@
             color: #252000;
             font-size: large;
             font-weight: bold;
+       }
+       .formain{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+        padding: 10px;
+       }
+       .formdiv{
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 10px 10px 20px rgb(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.203);
+        backdrop-filter: blur(5px);
+       }
+       table td{
+        font-size: larger;
+        font-weight: bold;
+       }
+       #submit,#reset{
+        font-size: large;
+        font-weight: bold;
+        border-radius: 10px;
+        background-color: #8e8128eb;
+        border: none;
+        padding: 10px;
+        transition: 0.2s ease;
+       }
+       #name,#email{
+        border: none;
+        background-color: #f4e793;
+        border-radius: 5px;
+        height: 25px;
+       }
+       #comment{
+        background-color: #f4e793;
+        border: none;
+        border-radius: 5px;
+       }
+       #submit:hover{
+        background-color: #252000;
+        color: #f4e793;
+       }
+       #reset:hover{
+        background-color: #252000;
+        color: #f4e793;
        }
